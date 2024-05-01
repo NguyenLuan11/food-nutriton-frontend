@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { listCategory } from "../../services/categoryArticleService";
+import { deleteCategoryById, listCategory } from "../../services/categoryArticleService";
 import HeaderPage from "../home/header_page";
 import FooterPage from '../home/footer_page';
 import FormatDate from "../../utils/FormatDate";
+import { useNavigate } from "react-router-dom";
 
 const ListCategoriesComponent = () => {
     const [categories, setCategories] = useState([]);
     const accessToken = localStorage.getItem("accessToken");
+
+    const navigator = useNavigate();
 
     useEffect(() => {
         getAllCategories();
@@ -29,11 +32,46 @@ const ListCategoriesComponent = () => {
     }
 
     function handleDeleteButtonClick(categoryId, accessToken) {
-        const confirmed = window.confirm("Bạn có chắc chắn muốn xóa thể loại này không?");
+        const confirmed = window.confirm("Bạn có chắc chắn muốn xóa thể loại bài báo này không?");
         
         if (confirmed) {
-        //   deleteUser(userId, accessToken);
+          deleteCategory(categoryId, accessToken);
         }
+    }
+
+    async function deleteCategory(categoryId, accessToken) {
+        if (accessToken != null) {
+            await deleteCategoryById(categoryId, accessToken).then((response) => {
+                if (response.status == 200) {
+                    alert(`Remove category have id is ${categoryId} successfully!`);
+                    navigator("/categories");
+                }
+            }).catch (error => {
+                if (error.response) {
+                    var message = error.response.data.message;
+                    if (!message) {
+                        alert("Login Expired!");
+                        navigator("/");
+                    } else {
+                        alert(message);
+                    }
+                    
+                } else {
+                    console.error(error);
+                }
+            })
+        } else {
+            alert("Login Expired!");
+            navigator("/");
+        }
+    }
+
+    function updateCategory(categoryId) {
+        navigator(`/category/${categoryId}`);
+    }
+
+    function addCategory() {
+        navigator(`/category`);
     }
 
     return (
@@ -42,7 +80,7 @@ const ListCategoriesComponent = () => {
         <div className="container">
             <h2 className='fw-bold text-center text-success text-uppercase m-2'>Danh sách thể loại bài báo</h2>
 
-            <button className='btn btn-outline-dark ml-2' onClick={() => {  }}>Add New Category</button>
+            <button className='btn btn-outline-dark ml-2' onClick={() => { addCategory() }}>Add New Category</button>
 
             <div className="row row-cols-2">
             {
@@ -65,18 +103,13 @@ const ListCategoriesComponent = () => {
                                 </i></p>
                             </div>
                             <div>
-                                <button className='btn btn-info'
-                                    onClick={() => { }}>
-                                    Details
-                                </button>
-
                                 <button className='btn btn-success' style={{ marginLeft: '5px' }}
-                                    onClick={() => { }}>
+                                    onClick={() => { updateCategory(category.categoryID) }}>
                                     Update
                                 </button>
 
                                 <button className='btn btn-danger' style={{ marginLeft: '5px' }}
-                                    onClick={() => { }}>
+                                    onClick={() => { handleDeleteButtonClick(category.categoryID, accessToken) }}>
                                     Remove
                                 </button>
                             </div>

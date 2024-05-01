@@ -12,6 +12,7 @@ import ArticleComponent from './components/article/articleComponent'
 import DetailsArticleComponent from './components/article/detailsArticleComponent'
 import DetailsNutrientComponent from './components/nutrient/detailsNutrientComponent'
 import NutrientComponent from './components/nutrient/nutrientComponent'
+import CategoryComponent from './components/category/categoryComponent'
 
 function App() {
 
@@ -42,6 +43,10 @@ function App() {
             <Route path='/nutrient' element = { <NutrientComponent /> } />
 
             <Route path='/categories' element = { <ListCategoriesComponent /> } />
+
+            <Route path='/category/:categoryId' element = { <CategoryComponent /> } />
+
+            <Route path='/category' element = { <CategoryComponent /> } />
 
             <Route path='/articles' element = { <ListArticlesComponent /> } />
 
