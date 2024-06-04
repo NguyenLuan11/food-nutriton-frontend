@@ -35,7 +35,7 @@ const LoginAdmin = () => {
                     alert("Login success!");
                     
                     localStorage.setItem("accessToken", admin.accessToken);
-                    navigator("/users");
+                    navigator("/home");
                 }
             }).catch(error => {
                 if (error.response) {
