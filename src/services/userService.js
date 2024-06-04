@@ -11,4 +11,4 @@ export const getUserById = (userId) => axios.get(`${REST_API_BASE_URL}/user/${us
 
 export const updateStateUserById = (userId, userState, accessToken) => axios.put(`${REST_API_BASE_URL}/user/state/${userId}`, {state: userState}, HeadersApi.headersAuthorization(accessToken));
 
-export const deleteUserById = (userId, accessToken) => axios.delete(`${REST_API_BASE_URL}/user/${userId}`, HeadersApi.eadersAuthorization(accessToken));
+export const deleteUserById = (userId, accessToken) => axios.delete(`${REST_API_BASE_URL}/user/${userId}`, HeadersApi.headersAuthorization(accessToken));
