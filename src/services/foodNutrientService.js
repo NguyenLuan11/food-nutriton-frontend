@@ -1,8 +1,8 @@
 import axios from "axios";
 import HeadersApi from "../services/headersApi";
+import ConstantService from "./constantService";
 
-
-const REST_API_BASE_URL = "http://192.168.1.4:5007/api/foodNutrient-management";
+const REST_API_BASE_URL = `${ConstantService.REST_API_BASE_URL}foodNutrient-management`;
 
 export const listFoodNutrient = () => axios.get(`${REST_API_BASE_URL}/foodNutrients`);
 

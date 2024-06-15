@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import HeadersApi from "../services/headersApi";
+import ConstantService from "./constantService";
 
-// const REST_API_BASE_URL = "http://192.168.1.4:5007/api/user-management";
-const REST_API_BASE_URL = "http://127.0.143.145:5007/api/user-management";
+const REST_API_BASE_URL = `${ConstantService.REST_API_BASE_URL}user-management`;
 
 export const listUsers = (accessToken) => axios.get(`${REST_API_BASE_URL}/users`, HeadersApi.headersAuthorization(accessToken));
 

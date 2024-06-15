@@ -1,11 +1,11 @@
 import axios from "axios";
+import ConstantService from "./constantService";
 
 const header = {
     'Content-Type': 'application/json'
 }
 
-const REST_API_BASE_URL = "http://127.0.143.145:5007/api/userBMI-management";
-// const REST_API_BASE_URL = "http://192.168.1.4:5007/api/userBMI-management";
+const REST_API_BASE_URL = `${ConstantService.REST_API_BASE_URL}userBMI-management`;
 
 export const listUserBMI = () => axios.get(`${REST_API_BASE_URL}/userBMIs`);
 
