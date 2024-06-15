@@ -35,6 +35,9 @@ const LoginAdmin = () => {
                     alert("Login success!");
                     
                     localStorage.setItem("accessToken", admin.accessToken);
+                    localStorage.setItem("adminID", admin.adminID);
+                    localStorage.setItem("adminName", admin.adminName);
+                    localStorage.setItem("avatar", admin.image);
                     navigator("/home");
                 }
             }).catch(error => {

@@ -41,8 +41,9 @@ const HeaderPage = () => {
                             <li className="nav-item dropdown">
                                 <a data-bs-dropdown-init className="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownMenuLink"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" className="rounded-circle"
-                                        height="42" alt="Avatar" loading="lazy" />
+                                    <img src={localStorage.getItem("avatar") != null ? `data:image/jpeg;base64,${localStorage.getItem("avatar")}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} 
+                                        className="rounded-circle"
+                                        height="42" alt={localStorage.getItem("adminName")} loading="lazy" />
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li>
