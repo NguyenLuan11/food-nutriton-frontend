@@ -12,28 +12,52 @@ const HeaderPage = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="/home">Home</a>
+                            <a className="nav-link active" aria-current="page" href="/home">Home</a>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link" href="/users">Users</a>
+                            <a className="nav-link" href="/users">Users</a>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link" href="/foods">Foods</a>
+                            <a className="nav-link" href="/foods">Foods</a>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link" href="/nutrients">Nutrients</a>
+                            <a className="nav-link" href="/nutrients">Nutrients</a>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link" href="/categories">Categories</a>
+                            <a className="nav-link" href="/categories">Categories</a>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link" href="/articles">Articles</a>
+                            <a className="nav-link" href="/articles">Articles</a>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search" style={{marginLeft: '15%'}}>
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" style={{width: '300px'}}/>
+                    <form className="d-flex" role="search" style={{ marginLeft: '15%' }}>
+                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" style={{ width: '300px' }} />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
+
+                    <div className="container-fluid">
+                        <ul className="navbar-nav">
+
+                            <li className="nav-item dropdown">
+                                <a data-bs-dropdown-init className="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownMenuLink"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" className="rounded-circle"
+                                        height="42" alt="Avatar" loading="lazy" />
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li>
+                                        <a className="dropdown-item" href="#">My profile</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#">Settings</a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
