@@ -32,7 +32,7 @@ const LoginAdmin = () => {
                 if (response.status == 200) {
                     const admin = AdminModel.fromApiResponse(response.data);
                     // console.log(admin);
-                    alert("Login success!");
+                    alert("Đăng nhập hệ thống quản trị thành công!");
                     
                     localStorage.setItem("accessToken", admin.accessToken);
                     localStorage.setItem("adminID", admin.adminID);
