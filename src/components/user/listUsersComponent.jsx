@@ -122,7 +122,7 @@ const ListUsersComponent = () => {
                             <h5 className="text-danger">{FormatDate.formatDateFromJson(user.dateJoining)}</h5>
                         </div>
                         <div className="d-flex flex-row justify-content-around m-3 pl-2">
-                            <img src={`data:image/jpeg;base64,${user.image}`} alt={user.userName} style={{width: '150px', height: '190px'}} />
+                            <img src={user.image != null ? `data:image/jpeg;base64,${user.image}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} alt={user.userName} style={{width: '150px', height: '190px'}} />
                             <div className="ml-2">
                                 <p><b>Full name: </b>{user.fullName}</p>
                                 <p><b>Email: </b>{user.email}</p>

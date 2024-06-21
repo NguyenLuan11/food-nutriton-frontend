@@ -1,7 +1,31 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeaderPage = () => {
+    const navigator = useNavigate();
+
+    const adminName = localStorage.getItem("adminName");
+    const avatar = localStorage.getItem("avatar");
+
+    function logout() {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("adminID");
+        localStorage.removeItem("adminName");
+        localStorage.removeItem("avatar");
+
+        navigator("/");
+    }
+
+    function handleLogoutButtonClick() {
+        const confirmed = window.confirm("Bạn có chắc chắn muốn đăng xuất không?");
+        
+        if (confirmed) {
+            alert(`Chào tạm biệt ${adminName}, hẹn gặp lại!`);
+            logout();
+        }
+    }
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary mb-3">
             <div className="container-fluid">
@@ -30,7 +54,7 @@ const HeaderPage = () => {
                             <a className="nav-link" href="/articles">Articles</a>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search" style={{ marginLeft: '15%' }}>
+                    <form className="d-flex" role="search" style={{ marginLeft: '13%' }}>
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" style={{ width: '300px' }} />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
@@ -41,9 +65,10 @@ const HeaderPage = () => {
                             <li className="nav-item dropdown">
                                 <a data-bs-dropdown-init className="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownMenuLink"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src={localStorage.getItem("avatar") != null ? `data:image/jpeg;base64,${localStorage.getItem("avatar")}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} 
+                                    <img src={avatar != "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} 
                                         className="rounded-circle"
-                                        height="42" alt={localStorage.getItem("adminName")} loading="lazy" />
+                                        height="42" alt={adminName} loading="lazy" />
+                                    {adminName}
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li>
@@ -53,7 +78,7 @@ const HeaderPage = () => {
                                         <a className="dropdown-item" href="#">Settings</a>
                                     </li>
                                     <li>
-                                        <a className="dropdown-item" href="#">Logout</a>
+                                        <button className="dropdown-item" onClick={handleLogoutButtonClick}>Logout</button>
                                     </li>
                                 </ul>
                             </li>
