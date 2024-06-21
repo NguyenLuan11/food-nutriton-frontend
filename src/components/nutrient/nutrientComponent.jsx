@@ -32,11 +32,16 @@ const NutrientComponent = () => {
 
     useEffect(() => {
         if (nutrientId) {
-            getNutrient(nutrientId);
+            if (accessToken != null) {
+                getNutrient(nutrientId);
+            }
+            else {
+                navigator("/");
+            }
         }
 
         getAllNatureNutrient();
-    }, [nutrientId])
+    }, [accessToken, navigator, nutrientId])
 
     async function getAllNatureNutrient() {
         await listNatureNutrient().then((response) => {

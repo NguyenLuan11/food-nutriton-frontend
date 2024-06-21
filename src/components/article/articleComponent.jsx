@@ -29,11 +29,16 @@ const ArticleComponent = () => {
 
     useEffect(() => {
         if (articleId) {
-            getArticle(articleId);
+            if (accessToken != null) {
+                getArticle(articleId);
+            }
+            else {
+                navigator("/");
+            }
         }
 
         getAllCategories();
-    }, [articleId])
+    }, [accessToken, articleId, navigator])
 
     async function getAllCategories() {
         await listCategory().then((response) => {

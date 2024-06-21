@@ -13,8 +13,13 @@ const ListFoodsComponent = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     useEffect(() => {
-        getAllFoods();
-    }, [])
+        if (accessToken != null) {
+            getAllFoods();
+        }
+        else {
+            navigator("/");
+        }
+    }, [accessToken, navigator])
 
     async function getAllFoods() {
         await listFoods().then((response) => {

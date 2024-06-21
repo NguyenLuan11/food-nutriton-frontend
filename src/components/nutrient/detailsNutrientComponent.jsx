@@ -13,11 +13,17 @@ const DetailsNutrientComponent = () => {
     const [natureNutrient, setNatureNutrient] = useState('');
 
     const navigator = useNavigate();
+    const accessToken = localStorage.getItem("accessToken");
     const {nutrientId} = useParams();
 
     useEffect(() => {
         if (nutrientId) {
-            getNutrient(nutrientId);
+            if (accessToken != null) {
+                getNutrient(nutrientId);
+            }
+            else {
+                navigator("/");
+            }
         }
     }, [nutrientId])
 

@@ -13,8 +13,13 @@ const ListArticlesComponent = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     useEffect(() => {
-        getAllArticles();
-    }, [])
+        if (accessToken != null) {
+            getAllArticles();
+        }
+        else {
+            navigator("/");
+        }
+    }, [accessToken, navigator])
 
     async function getAllArticles() {
         await listArticle().then((response) => {

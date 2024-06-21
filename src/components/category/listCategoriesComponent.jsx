@@ -13,8 +13,13 @@ const ListCategoriesComponent = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
-        getAllCategories();
-    }, [])
+        if (accessToken != null) {
+            getAllCategories();
+        }
+        else {
+            navigator("/");
+        }
+    }, [accessToken, navigator])
 
     async function getAllCategories() {
         await listCategory().then((response) => {

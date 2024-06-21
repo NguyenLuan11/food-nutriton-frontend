@@ -19,9 +19,14 @@ const CategoryComponent = () => {
 
     useEffect(() => {
         if (categoryId) {
-            getCategory(categoryId);
+            if (accessToken != null) {
+                getCategory(categoryId);
+            }
+            else {
+                navigator("/");
+            }
         }
-    }, [categoryId])
+    }, [accessToken, categoryId, navigator])
 
     async function getCategory(categoryId) {
         await getCategoryById(categoryId).then((response) => {

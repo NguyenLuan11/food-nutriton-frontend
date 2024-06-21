@@ -27,10 +27,15 @@ const FoodComponent = () => {
 
     useEffect(() => {
         if (foodId) {
-            getFood(foodId);
+            if (accessToken != null) {
+                getFood(foodId);
+            }
+            else {
+                navigator("/");
+            }
         }
         // console.log("Image base64:", image);
-    }, [foodId])
+    }, [accessToken, foodId, navigator])
 
     async function getFood(foodId) {
         await getFoodById(foodId).then((response) => {

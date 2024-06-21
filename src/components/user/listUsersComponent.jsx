@@ -18,7 +18,10 @@ const ListUsersComponent = () => {
         if (accessToken != null) {
             getAllUsers(accessToken);
         }
-    }, [accessToken])
+        else {
+            navigator("/");
+        }
+    }, [accessToken, navigator])
 
     async function getAllUsers(accessToken) {
         if (accessToken != null) {

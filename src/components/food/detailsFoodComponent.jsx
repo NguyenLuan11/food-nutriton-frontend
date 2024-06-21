@@ -10,11 +10,17 @@ const DetailsFoodComponent = () => {
     const [food, setFood] = useState('');
 
     const navigator = useNavigate();
+    const accessToken = localStorage.getItem("accessToken");
     const {foodId} = useParams();
 
     useEffect(() => {
-        getFood(foodId);
-    }, [foodId])
+        if (accessToken != null) {
+            getFood(foodId);
+        }
+        else {
+            navigator("/");
+        }
+    }, [accessToken, foodId, navigator])
 
     async function getFood(foodId) {
         await getFoodById(foodId).then((response) => {

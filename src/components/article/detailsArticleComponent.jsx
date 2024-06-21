@@ -13,11 +13,17 @@ const DetailsArticleComponent = () => {
     const [category, setCategory] = useState('');
 
     const navigator = useNavigate();
+    const accessToken = localStorage.getItem("accessToken");
     const {articleId} = useParams();
 
     useEffect(() => {
         if (articleId) {
-            getArticle(articleId);
+            if (accessToken != null) {
+                getArticle(articleId);
+            }
+            else {
+                navigator("/");
+            }
         }
     }, [articleId])
 

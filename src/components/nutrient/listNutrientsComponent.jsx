@@ -13,8 +13,13 @@ const ListNutrientsComponent = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     useEffect(() => {
-        getAllNutrients();
-    }, [])
+        if (accessToken != null) {
+            getAllNutrients();
+        }
+        else {
+            navigator("/");
+        }
+    }, [accessToken, navigator])
 
     async function getAllNutrients() {
         await listNutrients().then((response) => {
