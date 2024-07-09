@@ -72,7 +72,7 @@ const HeaderPage = () => {
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li>
-                                        <a className="dropdown-item" href="#">My profile</a>
+                                        <a className="dropdown-item" href="/profile">My profile</a>
                                     </li>
                                     <li>
                                         <a className="dropdown-item" href="#">Settings</a>

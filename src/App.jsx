@@ -13,6 +13,7 @@ import DetailsArticleComponent from './components/article/detailsArticleComponen
 import DetailsNutrientComponent from './components/nutrient/detailsNutrientComponent'
 import NutrientComponent from './components/nutrient/nutrientComponent'
 import CategoryComponent from './components/category/categoryComponent'
+import ProfileAdmin from './components/admin/profile'
 
 function App() {
 
@@ -23,6 +24,8 @@ function App() {
             <Route path='/' element = { <LoginAdmin /> } />
             
             <Route path='/home' element = { <HomePage /> } />
+
+            <Route path='/profile' element = { <ProfileAdmin /> } />
 
             <Route path='/users' element = { <ListUsersComponent /> } />
 
