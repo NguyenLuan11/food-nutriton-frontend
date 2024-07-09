@@ -9,6 +9,8 @@ const REST_API_BASE_URL = `${ConstantService.REST_API_BASE_URL}admin-management`
 
 export const listAdmins = () => axios.get(`${REST_API_BASE_URL}/admins`);
 
+export const countAllItems = () => axios.get(`${REST_API_BASE_URL}/count_all_items`);
+
 export const getAdminById = (adminId) => axios.get(`${REST_API_BASE_URL}/admin/${adminId}`);
 
 export const loginAdmin = (adminAuth) => axios.post(`${REST_API_BASE_URL}/login`, adminAuth, {headers: header});
