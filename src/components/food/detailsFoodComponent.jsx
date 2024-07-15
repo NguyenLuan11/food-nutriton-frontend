@@ -55,7 +55,7 @@ const DetailsFoodComponent = () => {
                     <h5 className="d-flex justify-content-end">{FormatDate.formatDateFromJson(food.created_date)}</h5>
                     <h2 className="fw-bold text-center">{food.foodName}</h2>
                     <div className="d-flex flex-column align-items-center m-3 p-3 lh-lg text-justify">
-                        <img src={`data:image/jpeg;base64,${food.image}`} alt={food.foodName} style={{ width: '500px', height: '270px' }} />
+                        <img src={`data:image/jpeg;base64,${food.image}`} alt={food.foodName} style={{ width: '370px', height: '270px' }} />
                         <br />
                         <div className="tableOfContent border p-4 rounded-4 bg-success-subtle">
                             <ol>
