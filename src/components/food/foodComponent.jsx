@@ -8,6 +8,7 @@ import { addFood, getFoodById, updateFoodById } from "../../services/foodsServic
 const FoodComponent = () => {
     const [foodName, setFoodName] = useState('');
     const [image, setImage] = useState('');
+    const [kcalOn100g, setKcalOn100g] = useState('');
     const [newImage, setNewImage] = useState('');
     const [nutritionValue, setNutritionValue] = useState('');
     const [preservation, setPreservation] = useState('');
@@ -16,6 +17,7 @@ const FoodComponent = () => {
     // Initialize state variables that will hold validation errors
     const [errors, setErrors] = useState({
         foodName: '',
+        kcalOn100g: '',
         nutritionValue: '',
         preservation: '',
         note: ''
@@ -42,6 +44,7 @@ const FoodComponent = () => {
             if (response.status == 200) {
                 setFoodName(response.data.foodName);
                 setImage(response.data.image);
+                setKcalOn100g(response.data.kcalOn100g);
                 setNutritionValue(response.data.nutritionValue);
                 setPreservation(response.data.preservation);
                 setNote(response.data.note);
@@ -65,7 +68,7 @@ const FoodComponent = () => {
 
         if (accessToken != null) {
             if (validateForm()) {
-                const food = {foodName, image: newImage || image, nutritionValue, preservation, note};
+                const food = {foodName, image: newImage || image, kcalOn100g, nutritionValue, preservation, note};
                 console.log(food);
 
                 if (foodId) {
@@ -127,6 +130,13 @@ const FoodComponent = () => {
             errorCopy.foodName = '';
         } else {
             errorCopy.foodName = "Food's Name is requied!";
+            valid = false;
+        }
+
+        if (kcalOn100g.trim()) {
+            errorCopy.kcalOn100g = '';
+        } else {
+            errorCopy.kcalOn100g = "Calories on 100g is requied!";
             valid = false;
         }
 
@@ -219,6 +229,17 @@ const FoodComponent = () => {
                             }
                             <input type="file" className="form-control" name="image" id="image" 
                             onChange={(e) => handleImageChange(e)} />
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label htmlFor="kcalOn100g"><b><i>Kcal/100g</i></b></label>
+                            <textarea type="text"
+                            onChange={(e) => setKcalOn100g(e.target.value)}
+                            className={`form-control ${ errors.kcalOn100g ? 'is-invalid' : '' }`} 
+                            name="kcalOn100g" id="kcalOn100g" 
+                            value={kcalOn100g} />
+                            {/* Display validation errors */}
+                            { errors.kcalOn100g && <div className='invalid-feedback'>{ errors.kcalOn100g }</div> }
                         </div>
                         <br />
                         <div className="form-group">
