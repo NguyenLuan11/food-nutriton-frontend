@@ -8,3 +8,5 @@ class ConstantService {
 }
 
 export default ConstantService;
+
+export const APP_NAME = "Nutrition-Food-App-1.0";

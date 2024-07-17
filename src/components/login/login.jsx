@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../services/adminService";
 import AdminModel from '../../models/adminModel';
+import encryptPass from "../../utils/CryptoPass";
+import { APP_NAME } from "../../services/constantService";
 // import { ToastContainer, toast } from "react-toastify";
 
 const LoginAdmin = () => {
@@ -24,7 +26,7 @@ const LoginAdmin = () => {
 
         // validate form on Submission
         if (validateForm()) {
-            const admin = {adminName, password};
+            const admin = {adminName, password: encryptPass(password, APP_NAME)};
             // console.log(admin);
 
             // Login admin
