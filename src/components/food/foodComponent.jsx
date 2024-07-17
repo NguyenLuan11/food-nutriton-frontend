@@ -133,7 +133,7 @@ const FoodComponent = () => {
             valid = false;
         }
 
-        if (kcalOn100g.trim()) {
+        if (kcalOn100g) {
             errorCopy.kcalOn100g = '';
         } else {
             errorCopy.kcalOn100g = "Calories on 100g is requied!";
@@ -233,7 +233,7 @@ const FoodComponent = () => {
                         <br />
                         <div className="form-group">
                             <label htmlFor="kcalOn100g"><b><i>Kcal/100g</i></b></label>
-                            <textarea type="text"
+                            <input type="number"
                             onChange={(e) => setKcalOn100g(e.target.value)}
                             className={`form-control ${ errors.kcalOn100g ? 'is-invalid' : '' }`} 
                             name="kcalOn100g" id="kcalOn100g" 
