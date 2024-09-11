@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 const ListFoodsComponent = () => {
     const [foods, setFoods] = useState([]);
 
+    const [strSearch, setStrSearch] = useState('');
+    const [foundFoods, setFoundFoods] = useState([]);
+
     const navigator = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
 
@@ -21,10 +24,12 @@ const ListFoodsComponent = () => {
         }
     }, [accessToken, navigator])
 
+    // Get list foods
     async function getAllFoods() {
         await listFoods().then((response) => {
             if (response.status == 200) {
                 setFoods(response.data);
+                setFoundFoods(response.data);
             }
         }).catch(error => {
             if (error.response) {
@@ -36,18 +41,35 @@ const ListFoodsComponent = () => {
         })
     }
 
+    // Filter users based on input
+    useEffect(() => {
+        if (!strSearch.trim()) {
+            setFoundFoods(foods);
+        }
+        else {
+            const filteredFoods = foods.filter((food) => 
+                food.foodName.toLowerCase().includes(strSearch.toLowerCase())
+            );
+            setFoundFoods(filteredFoods);
+        }
+    }, [strSearch, foods]);
+
+    // Redirect to detail page
     function detailsFood(foodId) {
         navigator(`/foods/${foodId}`);
     }
 
+    // Redirect to update page
     function updateFood(foodId) {
         navigator(`/food/${foodId}`);
     }
 
+    // Redirect to add page
     function addFood() {
         navigator(`/food`);
     }
 
+    // Handle delete button
     function handleDeleteButtonClick(foodId, accessToken) {
         const confirmed = window.confirm("Bạn có chắc chắn muốn xóa thực phẩm này không?");
         
@@ -56,6 +78,7 @@ const ListFoodsComponent = () => {
         }
     }
 
+    // Delete food
     async function deleteFood(foodId, accessToken) {
         if (accessToken != null) {
             await deleteFoodById(foodId, accessToken).then((response) => {
@@ -91,8 +114,16 @@ const ListFoodsComponent = () => {
 
             <button className='btn btn-outline-dark ml-2' onClick={() => { addFood() }}>Add New Food</button>
 
+                <form className="d-flex justify-content-end" role="search">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                        style={{ width: '300px' }}
+                        onChange={(e) => setStrSearch(e.target.value)}
+                        name="inputSearch" id="inputSearch"
+                        value={strSearch} />
+                </form>
+
            {
-                foods.map(food => 
+                foundFoods.map(food => 
                     <div key={food.foodID} className="w-100 shadow bg-body rounded-4 m-3 p-3">
                         <div className="d-flex flex-row justify-content-between">
                             <h3>{food.foodID}. {food.foodName}</h3>

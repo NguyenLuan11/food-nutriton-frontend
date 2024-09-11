@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useId, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {listUsers, updateStateUserById, deleteUserById} from "../../services/userService";
 import HeaderPage from "../home/header_page";
 import FooterPage from '../home/footer_page';
@@ -10,6 +10,9 @@ import FormatDate from "../../utils/FormatDate";
 const ListUsersComponent = () => {
     const [users, setUsers] = useState([]);
     const [userState, setUserState] = useState([]);
+
+    const [strSearch, setStrSearch] = useState('');
+    const [foundUsers, setFoundUsers] = useState([]);
 
     const navigator = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
@@ -23,12 +26,14 @@ const ListUsersComponent = () => {
         }
     }, [accessToken, navigator])
 
+    // Get list users
     async function getAllUsers(accessToken) {
         if (accessToken != null) {
             await listUsers(accessToken).then((response) => {
                 if (response.status == 200) {
                     setUsers(response.data);
                     // console.log(response.data);
+                    setFoundUsers(response.data);
                 }
             }).catch(error => {
                 if (error.response) {
@@ -50,6 +55,19 @@ const ListUsersComponent = () => {
         }
     }
 
+    // Filter users based on input
+    useEffect(() => {
+        if (!strSearch.trim()) {
+            setFoundUsers(users);
+        } else {
+            const filteredUsers = users.filter((user) =>
+                user.userName.toLowerCase().includes(strSearch.toLowerCase())
+            );
+            setFoundUsers(filteredUsers);
+        }
+    }, [strSearch, users]);
+
+    // Update state of user
     async function updateStateUser(userId, accessToken) {
         if (accessToken != null) {
             await updateStateUserById(userId, userState, accessToken).then((response) => {
@@ -77,6 +95,7 @@ const ListUsersComponent = () => {
         }
     }
 
+    // Handle delete button
     function handleDeleteButtonClick(userId, accessToken) {
         const confirmed = window.confirm("Bạn có chắc chắn muốn xóa người dùng này không?");
         
@@ -85,6 +104,7 @@ const ListUsersComponent = () => {
         }
     }
 
+    // Delete user
     async function deleteUser(userId, accessToken) {
         if (accessToken != null) {
             await deleteUserById(userId, accessToken).then((response) => {
@@ -117,8 +137,16 @@ const ListUsersComponent = () => {
         <div className="container">
             <h2 className='fw-bold text-center text-danger m-2 text-uppercase'>Danh sách người dùng</h2>
 
+                <form className="d-flex justify-content-end" role="search">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" 
+                    style={{ width: '300px' }} 
+                    onChange={(e) => setStrSearch(e.target.value)} 
+                    name="inputSearch" id="inputSearch" 
+                    value={strSearch} />
+                </form>
+
             {
-                users.map(user =>
+                foundUsers.map(user =>
                     <div key={user.userID} className="w-100 shadow bg-body rounded-4 m-3 p-3">
                         <div className="d-flex flex-row justify-content-between">
                             <h3>{user.userID}. {user.userName}</h3>

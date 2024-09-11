@@ -54,12 +54,8 @@ const HeaderPage = () => {
                             <a className="nav-link" href="/articles">Articles</a>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search" style={{ marginLeft: '13%' }}>
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" style={{ width: '300px' }} />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
 
-                    <div className="container-fluid">
+                    <div className="d-flex justify-content-end container-fluid" style={{ marginRight: '3%' }}>
                         <ul className="navbar-nav">
 
                             <li className="nav-item dropdown">

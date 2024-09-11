@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 const ListArticlesComponent = () => {
     const [articles, setArticles] = useState([]);
 
+    const [strSearch, setStrSearch] = useState('');
+    const [foundArticles, setFoundArticles] = useState([]);
+
     const navigator = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
 
@@ -21,10 +24,12 @@ const ListArticlesComponent = () => {
         }
     }, [accessToken, navigator])
 
+    // Get list articles
     async function getAllArticles() {
         await listArticle().then((response) => {
             if (response.status == 200) {
                 setArticles(response.data);
+                setFoundArticles(response.data);
             }
         }).catch(error => {
             if (error.response) {
@@ -36,18 +41,35 @@ const ListArticlesComponent = () => {
         })
     }
 
+    // Filter users based on input
+    useEffect(() => {
+        if (!strSearch.trim()) {
+            setFoundArticles(articles);
+        }
+        else {
+            const filteredArticles = articles.filter((article) => 
+                article.title.toLowerCase().includes(strSearch.toLowerCase())
+            );
+            setFoundArticles(filteredArticles);
+        }
+    }, [strSearch, articles]);
+
+    // Redirect to detail page
     function detailsArticle(articleId) {
         navigator(`/articles/${articleId}`);
     }
 
+    // Redirect to update page
     function updateArticle(articleId) {
         navigator(`/article/${articleId}`);
     }
 
+    // Redirect to add page
     function addArticle() {
         navigator(`/article`);
     }
 
+    // Handle delete button
     function handleDeleteButtonClick(articleId, accessToken) {
         const confirmed = window.confirm("Bạn có chắc chắn muốn xóa bài báo này không?");
         
@@ -56,6 +78,7 @@ const ListArticlesComponent = () => {
         }
     }
 
+    // Delete article
     async function deleteArticle(articleId, accessToken) {
         if (accessToken != null) {
             await deleteArticleById(articleId, accessToken).then((response) => {
@@ -91,8 +114,16 @@ const ListArticlesComponent = () => {
 
             <button className='btn btn-outline-dark ml-2' onClick={() => { addArticle() }}>Add New Article</button>
 
+                <form className="d-flex justify-content-end" role="search">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                        style={{ width: '300px' }}
+                        onChange={(e) => setStrSearch(e.target.value)}
+                        name="inputSearch" id="inputSearch"
+                        value={strSearch} />
+                </form>
+
             {
-                articles.map(article =>
+                foundArticles.map(article =>
                     <div key={article.articleID} className="w-100 shadow bg-body rounded-4 m-3 p-3">
                         <div className="d-flex flex-row justify-content-between">
                             <h3>{article.articleID}. {article.title}</h3>

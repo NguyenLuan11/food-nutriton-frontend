@@ -9,6 +9,9 @@ import FormatDate from "../../utils/FormatDate";
 const ListNutrientsComponent = () => {
     const [nutrients, setNutrients] = useState([]);
 
+    const [strSearch, setStrSearch] = useState('');
+    const [foundNutrients, setFoundNutrients] = useState([]);
+
     const navigator = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
 
@@ -21,10 +24,12 @@ const ListNutrientsComponent = () => {
         }
     }, [accessToken, navigator])
 
+    // Get list nutrients
     async function getAllNutrients() {
         await listNutrients().then((response) => {
             if (response.status == 200) {
                 setNutrients(response.data);
+                setFoundNutrients(response.data);
             }
         }).catch(error => {
             if (error.response) {
@@ -36,18 +41,35 @@ const ListNutrientsComponent = () => {
         })
     }
 
+    // Filter users based on input
+    useEffect(() => {
+        if (!strSearch.trim()) {
+            setFoundNutrients(nutrients);
+        }
+        else {
+            const filteredNutrients = nutrients.filter((nutrient) => 
+                nutrient.nutrientName.toLowerCase().includes(strSearch.toLowerCase())
+            );
+            setFoundNutrients(filteredNutrients);
+        }
+    }, [strSearch, nutrients]);
+
+    // Redirect to add page
     function addNutrient() {
         navigator("/nutrient");
     }
 
+    // Redirect to update page
     function updateNutrient(nutrientId) {
         navigator(`/nutrient/${nutrientId}`);
     }
 
+    // Redirect to detail page
     function detailsNutrient(nutrientId) {
         navigator(`/nutrients/${nutrientId}`);
     }
 
+    // Handle delete button
     function handleDeleteButtonClick(nutrientId, accessToken) {
         const confirmed = window.confirm("Bạn có chắc chắn muốn xóa chất dinh dưỡng này không?");
         
@@ -56,6 +78,7 @@ const ListNutrientsComponent = () => {
         }
     }
 
+    // Delete nutrient
     async function deleteNutrient(nutrientId, accessToken) {
         if (accessToken != null) {
             await deleteNutrientById(nutrientId, accessToken).then((response) => {
@@ -91,8 +114,16 @@ const ListNutrientsComponent = () => {
 
             <button className='btn btn-outline-dark ml-2' onClick={() => { addNutrient() }}>Add New Nutrient</button>
 
+                <form className="d-flex justify-content-end" role="search">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                        style={{ width: '300px' }}
+                        onChange={(e) => setStrSearch(e.target.value)}
+                        name="inputSearch" id="inputSearch"
+                        value={strSearch} />
+                </form>
+
             {
-                nutrients.map(nutrient => 
+                foundNutrients.map(nutrient => 
                     <div key={nutrient.nutrientID} className="w-100 shadow bg-body rounded-4 m-3 p-3">
                         <div className="d-flex flex-row justify-content-between">
                             <h3>{nutrient.nutrientID}. {nutrient.nutrientName}</h3>

@@ -8,9 +8,12 @@ import { useNavigate } from "react-router-dom";
 
 const ListCategoriesComponent = () => {
     const [categories, setCategories] = useState([]);
-    const accessToken = localStorage.getItem("accessToken");
+
+    const [strSearch, setStrSearch] = useState('');
+    const [foundCategories, setFoundCategories] = useState([]);
 
     const navigator = useNavigate();
+    const accessToken = localStorage.getItem("accessToken");
 
     useEffect(() => {
         if (accessToken != null) {
@@ -21,10 +24,12 @@ const ListCategoriesComponent = () => {
         }
     }, [accessToken, navigator])
 
+    // Get list categories
     async function getAllCategories() {
         await listCategory().then((response) => {
             if (response.status == 200) {
                 setCategories(response.data);
+                setFoundCategories(response.data);
             }
         }).catch(error => {
             if (error.response) {
@@ -36,6 +41,20 @@ const ListCategoriesComponent = () => {
         })
     }
 
+    // Filter users based on input
+    useEffect(() => {
+        if (!strSearch.trim()) {
+            setFoundCategories(categories);
+        }
+        else {
+            const filteredCategories = categories.filter((category) => 
+                category.categoryName.toLowerCase().includes(strSearch.toLowerCase())
+            );
+            setFoundCategories(filteredCategories);
+        }
+    }, [strSearch, categories]);
+
+    // Handle delete button
     function handleDeleteButtonClick(categoryId, accessToken) {
         const confirmed = window.confirm("Bạn có chắc chắn muốn xóa thể loại bài báo này không?");
         
@@ -44,6 +63,7 @@ const ListCategoriesComponent = () => {
         }
     }
 
+    // Delete category
     async function deleteCategory(categoryId, accessToken) {
         if (accessToken != null) {
             await deleteCategoryById(categoryId, accessToken).then((response) => {
@@ -71,10 +91,12 @@ const ListCategoriesComponent = () => {
         }
     }
 
+    // Redirect to update page
     function updateCategory(categoryId) {
         navigator(`/category/${categoryId}`);
     }
 
+    // Redirect to add page
     function addCategory() {
         navigator(`/category`);
     }
@@ -87,9 +109,17 @@ const ListCategoriesComponent = () => {
 
             <button className='btn btn-outline-dark ml-2' onClick={() => { addCategory() }}>Add New Category</button>
 
+                <form className="d-flex justify-content-end" role="search">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                        style={{ width: '300px' }}
+                        onChange={(e) => setStrSearch(e.target.value)}
+                        name="inputSearch" id="inputSearch"
+                        value={strSearch} />
+                </form>
+
             <div className="row row-cols-2">
             {
-                categories.map(category =>
+                foundCategories.map(category =>
                     <div key={category.categoryID} className="col">
                         <div className="w-100 shadow bg-body rounded-4 m-3 p-3">
                             <div className="d-flex flex-row justify-content-between">
