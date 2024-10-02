@@ -38,6 +38,11 @@ const ProfileAdmin = () => {
         })
     }
 
+    // Redirect to update page
+    function updateProfile() {
+        navigator(`/profile/update`);
+    }
+
     return (
         <>
         <HeaderPage />
@@ -55,7 +60,7 @@ const ProfileAdmin = () => {
                                     <p className="text-muted mb-4">{admin.address}</p>
                                     <div className="d-flex justify-content-center mb-2">
                                         {/* <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary">Follow</button> */}
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
+                                        <button onClick={updateProfile} type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
                                     </div>
                                 </div>
                             </div>
