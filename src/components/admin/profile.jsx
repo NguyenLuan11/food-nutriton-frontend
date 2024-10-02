@@ -7,11 +7,19 @@ import { getAdminById } from "../../services/adminService";
 import FormatDate from "../../utils/FormatDate";
 
 const ProfileAdmin = () => {
-    const [admin, setAdmin] = useState([]);
+    
+    const [adminName, setAdminName] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [createdDate, setCreatedDate] = useState('');
+    const [modifiedDate, setModifiedDate] = useState('');
 
     const navigator = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
     const adminID = localStorage.getItem("adminID");
+    const avatar = localStorage.getItem("avatar");
 
     useEffect(() => {
         if (accessToken != null) {
@@ -26,7 +34,13 @@ const ProfileAdmin = () => {
     async function getAdmin() {
         await getAdminById(adminID).then((respone) => {
             if (respone.status == 200) {
-                setAdmin(respone.data);
+                setAdminName(respone.data.adminName);
+                setFullName(respone.data.fullName);
+                setEmail(respone.data.email);
+                setPhone(respone.data.phone);
+                setAddress(respone.data.address);
+                setCreatedDate(FormatDate.formatDateFromJson(respone.data.created_date));
+                setModifiedDate(respone.data.modified_date != null ? FormatDate.formatDateFromJson(respone.data.modified_date) : FormatDate.formatDateFromJson(respone.data.created_date));
             }
         }).catch(error => {
             if (error.response) {
@@ -53,13 +67,12 @@ const ProfileAdmin = () => {
                         <div className="col-lg-4">
                             <div className="card mb-4">
                                 <div className="card-body text-center">
-                                    <img src={admin.image != null ? `data:image/jpeg;base64,${admin.image}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"}
-                                        alt={`avatar ${admin.adminName}`} loading="lazy" className="rounded-circle img-fluid" style={{ width: "150px" }} />
-                                    <h5 className="my-3">{admin.adminName}</h5>
+                                    <img src={avatar != "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"}
+                                        alt={`avatar ${adminName}`} loading="lazy" className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                                    <h5 className="my-3">{adminName}</h5>
                                     <p className="text-muted mb-1">Admin of Food Nutrition Page</p>
-                                    <p className="text-muted mb-4">{admin.address}</p>
+                                    <p className="text-muted mb-4">{address}</p>
                                     <div className="d-flex justify-content-center mb-2">
-                                        {/* <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary">Follow</button> */}
                                         <button onClick={updateProfile} type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
                                     </div>
                                 </div>
@@ -99,7 +112,7 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Full Name</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{admin.fullName}</p>
+                                            <p className="text-muted mb-0">{fullName}</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -108,7 +121,7 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Email</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{admin.email}</p>
+                                            <p className="text-muted mb-0">{email}</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -117,7 +130,7 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Phone</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{admin.phone}</p>
+                                            <p className="text-muted mb-0">{phone}</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -126,7 +139,7 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Address</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{admin.address}</p>
+                                            <p className="text-muted mb-0">{address}</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -135,7 +148,7 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Created Date</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{FormatDate.formatDateFromJson(admin.created_date)}</p>
+                                            <p className="text-muted mb-0">{createdDate}</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -144,9 +157,7 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Modified Date</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">
-                                                {admin.modified_date != null ? FormatDate.formatDateFromJson(admin.modified_date) : FormatDate.formatDateFromJson(admin.created_date)}
-                                            </p>
+                                            <p className="text-muted mb-0">{modifiedDate}</p>
                                         </div>
                                     </div>
                                 </div>
