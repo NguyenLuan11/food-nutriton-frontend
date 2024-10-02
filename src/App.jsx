@@ -14,7 +14,6 @@ import DetailsNutrientComponent from './components/nutrient/detailsNutrientCompo
 import NutrientComponent from './components/nutrient/nutrientComponent'
 import CategoryComponent from './components/category/categoryComponent'
 import ProfileAdmin from './components/admin/profile'
-import UpdateProfileAdmin from './components/admin/updateProfile'
 
 function App() {
 
@@ -27,8 +26,6 @@ function App() {
             <Route path='/home' element = { <HomePage /> } />
 
             <Route path='/profile' element = { <ProfileAdmin /> } />
-
-            <Route path='/profile/update' element = { <UpdateProfileAdmin /> } />
 
             <Route path='/users' element = { <ListUsersComponent /> } />
 

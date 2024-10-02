@@ -52,11 +52,6 @@ const ProfileAdmin = () => {
         })
     }
 
-    // Redirect to update page
-    function updateProfile() {
-        navigator(`/profile/update`);
-    }
-
     return (
         <>
         <HeaderPage />
@@ -73,7 +68,7 @@ const ProfileAdmin = () => {
                                     <p className="text-muted mb-1">Admin of Food Nutrition Page</p>
                                     <p className="text-muted mb-4">{address}</p>
                                     <div className="d-flex justify-content-center mb-2">
-                                        <button onClick={updateProfile} type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
+                                        <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
                                     </div>
                                 </div>
                             </div>
