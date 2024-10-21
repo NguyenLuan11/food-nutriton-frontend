@@ -15,6 +15,14 @@ const ProfileAdmin = () => {
     const [address, setAddress] = useState('');
     const [createdDate, setCreatedDate] = useState('');
     const [modifiedDate, setModifiedDate] = useState('');
+    const [imageAvt, setImageAvt] = useState('');
+
+    // Initialize state variables that will hold validation errors
+    const [errors, setErrors] = useState({
+        adminName: '',
+        fullName: '',
+        email: ''
+    })
 
     const navigator = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
@@ -63,10 +71,13 @@ const ProfileAdmin = () => {
                             <div className="card mb-4">
                                 <div className="card-body text-center">
                                     <img src={avatar != "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"}
-                                        alt={`avatar ${adminName}`} loading="lazy" className="rounded-circle img-fluid" style={{ width: "150px" }} />
-                                    <h5 className="my-3">{adminName}</h5>
+                                        alt={`${adminName}'s avatar`} loading="lazy" className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                                    <h5 className="my-2">{adminName}</h5>
+                                    <h5 className="my-3">{email}</h5>
+                                    {/* <p className="text-muted mb-1">{email}</p> */}
                                     <p className="text-muted mb-1">Admin of Food Nutrition Page</p>
                                     <p className="text-muted mb-4">{address}</p>
+                                    <p className="text-muted mb-4">Created Date: {createdDate}</p>
                                     <div className="d-flex justify-content-center mb-2">
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
                                     </div>
@@ -104,10 +115,21 @@ const ProfileAdmin = () => {
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-sm-3">
+                                            <p className="mb-0">Admin Name</p>
+                                        </div>
+                                        <div className="col-sm-9">
+                                            <input type="text" className="form-control" name="adminName" id="adminName" 
+                                            value={adminName}/>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-sm-3">
                                             <p className="mb-0">Full Name</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{fullName}</p>
+                                            <input type="text" className="form-control" name="fullName" id="fullName" 
+                                            value={fullName}/>
                                         </div>
                                     </div>
                                     <hr />
@@ -116,7 +138,8 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Email</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{email}</p>
+                                            <input type="text" className="form-control" name="email" id="email" 
+                                            value={email}/>
                                         </div>
                                     </div>
                                     <hr />
@@ -125,7 +148,8 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Phone</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{phone}</p>
+                                            <input type="text" className="form-control" name="phone" id="phone" 
+                                            value={phone}/>
                                         </div>
                                     </div>
                                     <hr />
@@ -134,16 +158,8 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Address</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{address}</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-sm-3">
-                                            <p className="mb-0">Created Date</p>
-                                        </div>
-                                        <div className="col-sm-9">
-                                            <p className="text-muted mb-0">{createdDate}</p>
+                                            <input type="text" className="form-control" name="address" id="address" 
+                                            value={address}/>
                                         </div>
                                     </div>
                                     <hr />
