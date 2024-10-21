@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import HeaderPage from "./header_page";
@@ -18,7 +19,7 @@ const HomePage = () => {
         else {
             navigator("/");
         }
-    }, [accessToken, navigator])
+    }, [accessToken])
 
     async function getCountAllItems() {
         await countAllItems().then((response) => {

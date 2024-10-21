@@ -1,13 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { getAdminById } from "../../services/adminService";
 import FormatDate from "../../utils/FormatDate";
 
-const ProfileAdmin = () => {
-    
+const ProfileAdmin = () => {    
     const [adminName, setAdminName] = useState('');
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -29,26 +29,30 @@ const ProfileAdmin = () => {
     const adminID = localStorage.getItem("adminID");
     const avatar = localStorage.getItem("avatar");
 
+    const fileInputRef = useRef(null); // Create ref for input file
+
     useEffect(() => {
-        if (accessToken != null) {
-            getAdmin();
+        if (adminID) {
+            if (accessToken != null) {
+                getAdmin();
+            }
+            else {
+                navigator("/");
+            }
         }
-        else {
-            navigator("/");
-        }
-    }, [accessToken, getAdmin, navigator])
+    }, [adminID])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     async function getAdmin() {
-        await getAdminById(adminID).then((respone) => {
-            if (respone.status == 200) {
-                setAdminName(respone.data.adminName);
-                setFullName(respone.data.fullName);
-                setEmail(respone.data.email);
-                setPhone(respone.data.phone);
-                setAddress(respone.data.address);
-                setCreatedDate(FormatDate.formatDateFromJson(respone.data.created_date));
-                setModifiedDate(respone.data.modified_date != null ? FormatDate.formatDateFromJson(respone.data.modified_date) : FormatDate.formatDateFromJson(respone.data.created_date));
+        await getAdminById(adminID).then((response) => {
+            if (response.status == 200) {
+                setAdminName(response.data.adminName);
+                setFullName(response.data.fullName);
+                setEmail(response.data.email);
+                setPhone(response.data.phone || "");
+                setAddress(response.data.address || "");
+                setCreatedDate(FormatDate.formatDateFromJson(response.data.created_date));
+                setModifiedDate(response.data.modified_date != null ? FormatDate.formatDateFromJson(response.data.modified_date) : FormatDate.formatDateFromJson(response.data.created_date));
             }
         }).catch(error => {
             if (error.response) {
@@ -60,6 +64,56 @@ const ProfileAdmin = () => {
         })
     }
 
+    // Validation function that checks the form data and returns validation errors
+    function validateForm() {
+        let valid = true;
+
+        const errorCopy = {... errors};
+
+        if (adminName.trim()) {
+            errorCopy.adminName = '';
+        } else {
+            errorCopy.adminName = "Admin's name is requied!";
+            valid = false;
+        }
+
+        if (fullName.trim()) {
+            errorCopy.fullName = '';
+        } else {
+            errorCopy.fullName = "Admin's full name is requied!";
+            valid = false;
+        }
+
+        if (email.trim()) {
+            errorCopy.email = '';
+        } else {
+            errorCopy.email = "Admin's email is requied!";
+            valid = false;
+        }
+
+        setErrors(errorCopy);
+
+        return valid;
+    }
+
+    function handleImageChange(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result.split(',')[1];
+                // console.log("base64String: ", base64String);
+                setImageAvt(base64String);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Open input file
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
     return (
         <>
         <HeaderPage />
@@ -70,14 +124,26 @@ const ProfileAdmin = () => {
                         <div className="col-lg-4">
                             <div className="card mb-4">
                                 <div className="card-body text-center">
-                                    <img src={avatar != "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"}
-                                        alt={`${adminName}'s avatar`} loading="lazy" className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                                    <img 
+                                        src={imageAvt ? `data:image/jpeg;base64,${imageAvt}` : (avatar !== "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146")}
+                                        alt={`${adminName}'s avatar`} 
+                                        loading="lazy" 
+                                        className="rounded-circle img-fluid" 
+                                        style={{ width: "150px", cursor: "pointer" }} 
+                                        onClick={handleImageClick} // Click on image to open input file
+                                    />
+                                    <input 
+                                        type="file" 
+                                        ref={fileInputRef} 
+                                        style={{ display: "none" }} 
+                                        onChange={handleImageChange} // Progress when choose new image
+                                    />
                                     <h5 className="my-2">{adminName}</h5>
                                     <h5 className="my-3">{email}</h5>
                                     {/* <p className="text-muted mb-1">{email}</p> */}
                                     <p className="text-muted mb-1">Admin of Food Nutrition Page</p>
-                                    <p className="text-muted mb-4">{address}</p>
-                                    <p className="text-muted mb-4">Created Date: {createdDate}</p>
+                                    <p className="text-muted mb-2">{address}</p>
+                                    <p className="text-muted mb-2">Created Date: {createdDate}</p>
                                     <div className="d-flex justify-content-center mb-2">
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
                                     </div>
@@ -118,8 +184,13 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Admin Name</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <input type="text" className="form-control" name="adminName" id="adminName" 
+                                            <input type="text" 
+                                            className={`form-control ${errors.adminName ? 'is-invalid' : ''}`} 
+                                            name="adminName" id="adminName" 
+                                            onChange={(e) => setAdminName(e.target.value)}
                                             value={adminName}/>
+                                            {/* Display validation errors */}
+                                            { errors.adminName && <div className='invalid-feedback'>{ errors.adminName }</div> }
                                         </div>
                                     </div>
                                     <hr />
@@ -128,8 +199,13 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Full Name</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <input type="text" className="form-control" name="fullName" id="fullName" 
+                                            <input type="text" 
+                                            className={`form-control ${errors.fullName ? 'is-invalid' : ''}`} 
+                                            onChange={(e) => {setFullName(e.target.value)}} 
+                                            name="fullName" id="fullName" 
                                             value={fullName}/>
+                                            {/* Display validation errors */}
+                                            { errors.fullName && <div className='invalid-feedback'>{ errors.fullName }</div> }
                                         </div>
                                     </div>
                                     <hr />
@@ -138,8 +214,13 @@ const ProfileAdmin = () => {
                                             <p className="mb-0">Email</p>
                                         </div>
                                         <div className="col-sm-9">
-                                            <input type="text" className="form-control" name="email" id="email" 
+                                            <input type="text" 
+                                            className={`form-control ${errors.email ? 'is-invalid': ''}`} 
+                                            onChange={(e) => {setEmail(e.target.value)}} 
+                                            name="email" id="email" 
                                             value={email}/>
+                                            {/* Display validation errors */}
+                                            { errors.email && <div className='invalid-feedback'>{ errors.email }</div> }
                                         </div>
                                     </div>
                                     <hr />
@@ -149,6 +230,7 @@ const ProfileAdmin = () => {
                                         </div>
                                         <div className="col-sm-9">
                                             <input type="text" className="form-control" name="phone" id="phone" 
+                                            onChange={(e) => {setPhone(e.target.value)}} 
                                             value={phone}/>
                                         </div>
                                     </div>
@@ -159,6 +241,7 @@ const ProfileAdmin = () => {
                                         </div>
                                         <div className="col-sm-9">
                                             <input type="text" className="form-control" name="address" id="address" 
+                                            onChange={(e) => {setAddress(e.target.value)}} 
                                             value={address}/>
                                         </div>
                                     </div>
