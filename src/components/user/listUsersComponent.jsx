@@ -6,6 +6,7 @@ import {listUsers, updateStateUserById, deleteUserById} from "../../services/use
 import HeaderPage from "../home/header_page";
 import FooterPage from '../home/footer_page';
 import FormatDate from "../../utils/FormatDate";
+import LineChartComponent from "../chart/lineChart";
 
 const ListUsersComponent = () => {
     const [users, setUsers] = useState([]);
@@ -32,6 +33,7 @@ const ListUsersComponent = () => {
             await listUsers(accessToken).then((response) => {
                 if (response.status == 200) {
                     setUsers(response.data);
+
                     // console.log(response.data);
                     setFoundUsers(response.data);
                 }
@@ -146,54 +148,70 @@ const ListUsersComponent = () => {
                 </form>
 
             {
-                foundUsers.map(user =>
-                    <div key={user.userID} className="w-100 shadow bg-body rounded-4 m-3 p-3">
-                        <div className="d-flex flex-row justify-content-between">
-                            <h3>{user.userID}. {user.userName}</h3>
-                            <h5 className="text-danger">{FormatDate.formatDateFromJson(user.dateJoining)}</h5>
-                        </div>
-                        <div className="d-flex flex-row justify-content-around m-3 pl-2">
-                            <img src={user.image != null ? `data:image/jpeg;base64,${user.image}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} alt={user.userName} style={{width: '150px', height: '190px'}} />
-                            <div className="ml-2">
-                                <p><b>Full name: </b>{user.fullName}</p>
-                                <p><b>Email: </b>{user.email}</p>
-                                <p><b>Phone: </b>{user.phone}</p>
-                                <p><b>Address: </b>{user.address}</p>
-                                <p><b>Date Birth: </b>{FormatDate.formatDateFromJson(user.dateBirth)}</p>
-                                
-                            </div>
-                            <div>
-                                <p><b>State: </b>
-                                    {user.state
-                                    ?
-                                    <select className="form-select" defaultValue={user.state}
-                                        onChange={(e) => setUserState(e.target.value)}>
-                                        <option value="true">On</option>
-                                        <option value="false">Off</option>
-                                    </select>
-                                    :
-                                    <select className="form-select" defaultValue={user.state}
-                                        onChange={(e) => setUserState(e.target.value)}>
-                                        <option value="true">On</option>
-                                        <option value="false">Off</option>
-                                    </select>}
-                                </p>
-                                <p><b>Modified Date: </b>{FormatDate.formatDateFromJson(user.modified_date)}</p>
-                                <p>
-                                    <button className='btn btn-success'
-                                        onClick={() => { updateStateUser(user.userID, accessToken); } }>
-                                        Save
-                                    </button>
+                foundUsers.map(user => {
 
-                                    <button className='btn btn-danger' style={{ marginLeft: '5px' }}
-                                        onClick={() => { handleDeleteButtonClick(user.userID, accessToken); } }>
-                                        Delete
-                                    </button>
-                                </p>
+                    // Trích xuất dữ liệu labels và dataPoints từ list_user_bmi của user
+                    const labels = user.list_user_bmi.map(bmi => {
+                        const date = new Date(bmi.check_date);
+                        // Định dạng ngày thành dd/mm
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0 nên cần +1
+                        return `${day}/${month}`;
+                    });
+                    const dataPoints = user.list_user_bmi.map(bmi => parseFloat(bmi.result.toFixed(2)));
+
+                    return (
+                        <div key={user.userID} className="w-100 shadow bg-body rounded-4 m-3 p-3">
+                            <div className="d-flex flex-row justify-content-between">
+                                <h3>{user.userID}. {user.userName}</h3>
+                                <h5 className="text-danger">{FormatDate.formatDateFromJson(user.dateJoining)}</h5>
+                            </div>
+                            <div className="d-flex flex-row justify-content-around m-3 pl-2">
+                                <img src={user.image != null ? `data:image/jpeg;base64,${user.image}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} alt={user.userName} style={{width: '150px', height: '190px'}} />
+                                <div>
+                                    <LineChartComponent labels={labels} dataPoints={dataPoints} />
+                                </div>
+                                <div className="ml-2">
+                                    <p><b>Full name: </b>{user.fullName}</p>
+                                    <p><b>Email: </b>{user.email}</p>
+                                    <p><b>Phone: </b>{user.phone}</p>
+                                    <p><b>Address: </b>{user.address}</p>
+                                    <p><b>Date Birth: </b>{FormatDate.formatDateFromJson(user.dateBirth)}</p>
+                                    
+                                </div>
+                                <div>
+                                    <p><b>State: </b>
+                                        {user.state
+                                        ?
+                                        <select className="form-select" defaultValue={user.state}
+                                            onChange={(e) => setUserState(e.target.value)}>
+                                            <option value="true">On</option>
+                                            <option value="false">Off</option>
+                                        </select>
+                                        :
+                                        <select className="form-select" defaultValue={user.state}
+                                            onChange={(e) => setUserState(e.target.value)}>
+                                            <option value="true">On</option>
+                                            <option value="false">Off</option>
+                                        </select>}
+                                    </p>
+                                    <p><b>Modified Date: </b>{FormatDate.formatDateFromJson(user.modified_date)}</p>
+                                    <p>
+                                        <button className='btn btn-success'
+                                            onClick={() => { updateStateUser(user.userID, accessToken); } }>
+                                            Save
+                                        </button>
+
+                                        <button className='btn btn-danger' style={{ marginLeft: '5px' }}
+                                            onClick={() => { handleDeleteButtonClick(user.userID, accessToken); } }>
+                                            Delete
+                                        </button>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )
+                    )
+                })
             }
         </div>
         <FooterPage />
