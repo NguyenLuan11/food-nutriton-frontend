@@ -4,6 +4,8 @@ import ConstantService from "./constantService";
 
 const REST_API_BASE_URL = `${ConstantService.REST_API_BASE_URL}foods-management`;
 
+export const getImgFood = `${REST_API_BASE_URL}/food/images/`;
+
 export const listFoods = () => axios.get(`${REST_API_BASE_URL}/foods`);
 
 export const getFoodById = (foodId) => axios.get(`${REST_API_BASE_URL}/food/${foodId}`);

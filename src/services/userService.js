@@ -5,6 +5,8 @@ import ConstantService from "./constantService";
 
 const REST_API_BASE_URL = `${ConstantService.REST_API_BASE_URL}user-management`;
 
+export const getAvtUser = `${REST_API_BASE_URL}/user/images/`;
+
 export const listUsers = (accessToken) => axios.get(`${REST_API_BASE_URL}/users`, HeadersApi.headersAuthorization(accessToken));
 
 export const getUserById = (userId) => axios.get(`${REST_API_BASE_URL}/user/${userId}`);

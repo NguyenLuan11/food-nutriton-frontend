@@ -61,7 +61,9 @@ const HeaderPage = () => {
                             <li className="nav-item dropdown">
                                 <a data-bs-dropdown-init className="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownMenuLink"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src={avatar != "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} 
+                                    <img src={avatar != "null" 
+                                        ? `http://fn-api.local:5007/api/admin-management/admin/images/${avatar}` 
+                                        : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"} 
                                         className="rounded-circle"
                                         height="42" alt={adminName} loading="lazy" />
                                     {adminName}

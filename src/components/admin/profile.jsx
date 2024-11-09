@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
-import { getAdminById } from "../../services/adminService";
+import { getAdminById, getAvtAdmin, updateAvtAdminById } from "../../services/adminService";
 import FormatDate from "../../utils/FormatDate";
 
 const ProfileAdmin = () => {    
@@ -114,6 +114,26 @@ const ProfileAdmin = () => {
         fileInputRef.current.click();
     };
 
+    async function updateProfileAdmin() {
+        // console.log(`adminID: ${adminID}`);
+
+        if (fileInputRef.current.files[0]) {
+            await updateAvtAdminById(adminID, fileInputRef.current.files[0], accessToken).then(response => {
+                if (response.status === 200) {
+                    alert("Avatar updated successfully!");
+                    localStorage.setItem("avatar", response.data.image);
+                }
+            }).catch(error => {
+                if (error.response) {
+                    var message = error.response.data.message;
+                    alert(message);
+                } else {
+                    console.error(error);
+                }
+            });
+        }
+    }
+
     return (
         <>
         <HeaderPage />
@@ -125,7 +145,10 @@ const ProfileAdmin = () => {
                             <div className="card mb-4">
                                 <div className="card-body text-center">
                                     <img 
-                                        src={imageAvt ? `data:image/jpeg;base64,${imageAvt}` : (avatar !== "null" ? `data:image/jpeg;base64,${avatar}` : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146")}
+                                        src={imageAvt ? `data:image/jpeg;base64,${imageAvt}` 
+                                        : (avatar !== "null" 
+                                            ? `${getAvtAdmin}${avatar}` 
+                                            : "https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146")}
                                         alt={`${adminName}'s avatar`} 
                                         loading="lazy" 
                                         className="rounded-circle img-fluid" 
@@ -133,7 +156,7 @@ const ProfileAdmin = () => {
                                         onClick={handleImageClick} // Click on image to open input file
                                     />
                                     <input 
-                                        type="file" 
+                                        type="file" name="picAvt" 
                                         ref={fileInputRef} 
                                         style={{ display: "none" }} 
                                         onChange={handleImageChange} // Progress when choose new image
@@ -145,7 +168,7 @@ const ProfileAdmin = () => {
                                     <p className="text-muted mb-2">{address}</p>
                                     <p className="text-muted mb-2">Created Date: {createdDate}</p>
                                     <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
+                                        <button type="button" onClick={updateProfileAdmin} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
                                     </div>
                                 </div>
                             </div>

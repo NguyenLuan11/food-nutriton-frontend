@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { deleteFoodById, listFoods } from "../../services/foodsService";
+import { deleteFoodById, getImgFood, listFoods } from "../../services/foodsService";
 import HeaderPage from "../home/header_page";
 import FooterPage from '../home/footer_page';
 import FormatDate from "../../utils/FormatDate";
@@ -130,7 +130,7 @@ const ListFoodsComponent = () => {
                             <h5 className="text-info">{FormatDate.formatDateFromJson(food.created_date)}</h5>
                         </div>
                         <div className="d-flex flex-row justify-content-around m-3">
-                            <img src={`data:image/jpeg;base64,${food.image}`} alt={food.foodName} style={{width: '190px', height: '190px', marginRight: '30px'}} />
+                            <img src={`${getImgFood}${food.image}`} alt={food.foodName} style={{width: '190px', height: '190px', marginRight: '30px'}} />
                             <p style={{textIndent: '40px'}}>{food.nutritionValue}</p>
                         </div>
                         <div>

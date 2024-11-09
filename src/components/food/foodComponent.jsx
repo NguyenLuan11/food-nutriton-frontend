@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { useNavigate, useParams } from "react-router-dom";
-import { addFood, getFoodById, updateFoodById } from "../../services/foodsService";
+import { addFood, getFoodById, getImgFood, updateFoodById } from "../../services/foodsService";
 
 const FoodComponent = () => {
     const [foodName, setFoodName] = useState('');
@@ -224,7 +224,7 @@ const FoodComponent = () => {
                             <br />
                             {
                                 image ?
-                                <img src={`data:image/jpeg;base64,${image}`} alt={foodName} style={{ width: '200px', height: '200px' }} />
+                                <img src={`${getImgFood}${image}`} alt={foodName} style={{ width: '200px', height: '200px' }} />
                                 : ``
                             }
                             <input type="file" className="form-control" name="image" id="image" 
