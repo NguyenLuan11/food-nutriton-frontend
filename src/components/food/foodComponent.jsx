@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { useNavigate, useParams } from "react-router-dom";
-import { addFood, getFoodById, getImgFood, updateFoodById } from "../../services/foodsService";
+import { addFood, getFoodById, getImgFood, updateFoodById, uploadImgFoodById } from "../../services/foodsService";
 
 const FoodComponent = () => {
     const [foodName, setFoodName] = useState('');
@@ -26,6 +26,8 @@ const FoodComponent = () => {
     const navigator = useNavigate();
     const {foodId} = useParams();
     const accessToken = localStorage.getItem("accessToken");
+
+    const fileInputRef = useRef(null); // Create ref for input file
 
     useEffect(() => {
         if (foodId) {
@@ -63,15 +65,39 @@ const FoodComponent = () => {
         navigator("/foods");
     }
 
+    async function uploadImgFood(foodId, file, accessToken) {
+        await uploadImgFoodById(foodId, file, accessToken).then(response => {
+            if (response.status == 200) {
+                console.log(`Uploaded image food have id is ${foodId} successfully!`);
+            } else {
+                console.log(`Uploaded image food have id is ${foodId} failed!`);
+            }
+        }).catch(error => {
+            if (error.response) {
+                var message = error.response.data.message;
+                alert(message);
+            } else {
+                console.error(error);
+            }
+        });
+    }
+
     async function addOrUpdateFood(foodId, accessToken) {
         // e.preventDefault();
 
         if (accessToken != null) {
             if (validateForm()) {
-                const food = {foodName, image: newImage || image, kcalOn100g, nutritionValue, preservation, note};
+                const food = {foodName, kcalOn100g, nutritionValue, preservation, note};
                 console.log(food);
+                // console.log("Access Token:", accessToken);
+                const file = fileInputRef.current.files[0];
+                console.log(file);
 
                 if (foodId) {
+                    if (file) {
+                        uploadImgFood(foodId, file, accessToken);
+                    }
+
                     await updateFoodById(foodId, food, accessToken).then((response) => {
                         if (response.status == 200) {
                             alert(`Updated food have id is ${foodId} successfully!`);
@@ -95,6 +121,11 @@ const FoodComponent = () => {
                 else {
                     await addFood(food, accessToken).then((response) => {
                         if (response.status == 200) {
+                            const foodId = response.data.foodID;
+                            if (file) {
+                                uploadImgFood(foodId, file, accessToken);
+                            }
+
                             alert(`Added food successfully!`);
                             navigator(`/foods`);
                         }
@@ -223,12 +254,15 @@ const FoodComponent = () => {
                             <label htmlFor="image"><b><i>Hình ảnh</i></b></label>
                             <br />
                             {
-                                image ?
-                                <img src={`${getImgFood}${image}`} alt={foodName} style={{ width: '200px', height: '200px' }} />
-                                : ``
+                                newImage ? 
+                                <img src={`data:image/jpeg;base64,${newImage}`} alt={foodName} loading="lazy" style={{ width: '200px', height: '200px' }} />
+                                : image ?
+                                    <img src={`${getImgFood}${image}`} alt={foodName} loading="lazy" style={{ width: '200px', height: '200px' }} />
+                                    : ``
                             }
-                            <input type="file" className="form-control" name="image" id="image" 
-                            onChange={(e) => handleImageChange(e)} />
+                            <input type="file" className="form-control" name="picFood" id="picFood" 
+                                ref={fileInputRef} 
+                                onChange={(e) => handleImageChange(e)} />
                         </div>
                         <br />
                         <div className="form-group">

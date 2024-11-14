@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { useNavigate, useParams } from "react-router-dom";
-import { getFoodById } from "../../services/foodsService";
+import { getFoodById, getImgFood } from "../../services/foodsService";
 import FormatDate from "../../utils/FormatDate";
 
 const DetailsFoodComponent = () => {
@@ -55,7 +55,7 @@ const DetailsFoodComponent = () => {
                     <h5 className="d-flex justify-content-end">{FormatDate.formatDateFromJson(food.created_date)}</h5>
                     <h2 className="fw-bold text-center">{food.foodName}</h2>
                     <div className="d-flex flex-column align-items-center m-3 p-3 lh-lg text-justify">
-                        <img src={`data:image/jpeg;base64,${food.image}`} alt={food.foodName} style={{ width: '370px', height: '270px' }} />
+                        <img src={`${getImgFood}${food.image}`} alt={food.foodName} style={{ width: '370px', height: '270px' }} />
                         <br />
                         <div className="tableOfContent border p-4 rounded-4 bg-success-subtle">
                             <ol>

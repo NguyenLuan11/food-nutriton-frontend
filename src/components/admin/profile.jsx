@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
-import { getAdminById, getAvtAdmin, updateAvtAdminById } from "../../services/adminService";
+import { getAdminById, getAvtAdmin, updateAdminById, updateAvtAdminById } from "../../services/adminService";
 import FormatDate from "../../utils/FormatDate";
 
 const ProfileAdmin = () => {    
@@ -116,6 +116,8 @@ const ProfileAdmin = () => {
 
     async function updateProfileAdmin() {
         // console.log(`adminID: ${adminID}`);
+        const adminData = {adminName, fullName, email, phone, address}
+        console.log(`adminData: ${adminData}`);
 
         if (fileInputRef.current.files[0]) {
             await updateAvtAdminById(adminID, fileInputRef.current.files[0], accessToken).then(response => {
@@ -132,6 +134,20 @@ const ProfileAdmin = () => {
                 }
             });
         }
+
+        await updateAdminById(adminID, adminData).then(response => {
+            if (response.status == 200) {
+                alert("Updated admin's profile successfully!");
+                localStorage.setItem("adminName", response.data.adminName);
+            }
+        }).catch(error => {
+            if (error.response) {
+                var message = error.response.data.message;
+                alert(message);
+            } else {
+                console.error(error);
+            }
+        });
     }
 
     return (
