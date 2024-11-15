@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { useNavigate, useParams } from "react-router-dom";
-import { addArticle, getArticleById, updateArticleById } from "../../services/articleService";
+import { addArticle, getArticleById, updateArticleById, getThumbnailArticle } from "../../services/articleService";
 import { listCategory } from "../../services/categoryArticleService";
 
 const ArticleComponent = () => {
@@ -80,7 +80,7 @@ const ArticleComponent = () => {
 
         if (accessToken != null) {
             if (validateForm()) {
-                const article = {title, author, thumbnail: newImage || thumbnail, shortDescription, content, categoryID}
+                const article = {title, author, shortDescription, content, categoryID}
                 console.log(article);
 
                 if (articleId) {
@@ -229,8 +229,10 @@ const ArticleComponent = () => {
                             <label htmlFor="thumbnail"><b><i>Thumbnail</i></b></label>
                             <br />
                             {
-                                thumbnail ?
-                                <img src={`data:image/jpeg;base64,${thumbnail}`} alt={title} style={{ width: '200px', height: '200px' }} />
+                                newImage ? 
+                                <img src={`data:image/jpeg;base64,${newImage}`} alt={title} loading="lazy" style={{ width: '200px', height: '200px' }} />
+                                : thumbnail ?
+                                <img src={`${getThumbnailArticle}${thumbnail}`} alt={title} loading="lazy" style={{ width: '200px', height: '200px' }} />
                                 : ``
                             }
                             <input type="file" className="form-control" name="thumbnail" id="thumbnail" 

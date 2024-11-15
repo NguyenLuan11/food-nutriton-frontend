@@ -5,7 +5,7 @@ import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { useNavigate, useParams } from "react-router-dom";
 import FormatDate from "../../utils/FormatDate";
-import { getArticleById } from "../../services/articleService";
+import { getArticleById, getThumbnailArticle } from "../../services/articleService";
 import { getCategoryById } from "../../services/categoryArticleService";
 
 const DetailsArticleComponent = () => {
@@ -81,7 +81,7 @@ const DetailsArticleComponent = () => {
                     </div>
                     <h2 className='fw-bold text-center text-success m-2 text-uppercase'>{article.title}</h2>
                     <div className="d-flex flex-column align-items-center m-3 p-3 lh-lg text-justify">
-                        <img src={`data:image/jpeg;base64,${article.thumbnail}`} alt={article.title} style={{ width: '500px', height: '270px' }} />
+                        <img src={`${getThumbnailArticle}${article.thumbnail}`} alt={article.title} style={{ width: '500px', height: '270px' }} />
                         <br />
                         <div className="tableOfContent border p-4 rounded-4 bg-success-subtle">
                             <ol>

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
-import { deleteArticleById, listArticle } from "../../services/articleService";
+import { deleteArticleById, getThumbnailArticle, listArticle } from "../../services/articleService";
 import FormatDate from "../../utils/FormatDate";
 import { useNavigate } from "react-router-dom";
 
@@ -130,7 +130,7 @@ const ListArticlesComponent = () => {
                             <h5 className="text-info">{FormatDate.formatDateFromJson(article.created_date)}</h5>
                         </div>
                         <div className="d-flex flex-row justify-content-around m-3">
-                            <img src={`data:image/jpeg;base64,${article.thumbnail}`} alt={article.title} style={{width: '300px', height: '200px', marginRight: '30px'}} />
+                            <img src={`${getThumbnailArticle}${article.thumbnail}`} alt={article.title} style={{width: '300px', height: '200px', marginRight: '30px'}} />
                             <div>
                                 <p style={{textIndent: '40px'}}>{article.shortDescription}</p>
                                 <p className="d-flex justify-content-end" style={{textIndent: '40px'}}><i>{article.author}</i></p>
