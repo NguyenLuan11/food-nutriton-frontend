@@ -121,8 +121,8 @@ const FoodComponent = () => {
                 else {
                     await addFood(food, accessToken).then((response) => {
                         if (response.status == 200) {
-                            const foodId = response.data.foodID;
                             if (file) {
+                                const foodId = response.data.foodID;
                                 uploadImgFood(foodId, file, accessToken);
                             }
 
