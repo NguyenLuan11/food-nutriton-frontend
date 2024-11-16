@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
 import { useNavigate, useParams } from "react-router-dom";
-import { addArticle, getArticleById, updateArticleById, getThumbnailArticle } from "../../services/articleService";
+import { addArticle, getArticleById, updateArticleById, getThumbnailArticle, uploadThumbnailArticleById } from "../../services/articleService";
 import { listCategory } from "../../services/categoryArticleService";
 
 const ArticleComponent = () => {
@@ -26,6 +26,8 @@ const ArticleComponent = () => {
         title: '',
         content: ''
     })
+
+    const fileInputRef = useRef(null); // Create ref for input file
 
     useEffect(() => {
         if (articleId) {
@@ -75,6 +77,23 @@ const ArticleComponent = () => {
         })
     }
 
+    async function uploadThumbnailArticle(articleId, file, accessToken) {
+        await uploadThumbnailArticleById(articleId, file, accessToken).then(response => {
+            if (response.status == 200) {
+                console.log(`Uploaded article's thumbnail have id is ${articleId} successfully!`);
+            } else {
+                console.log(`Uploaded article's thumbnail have id is ${articleId} failed!`);
+            }
+        }).catch(error => {
+            if (error.response) {
+                var message = error.response.data.message;
+                alert(message);
+            } else {
+                console.error(error);
+            }
+        });
+    }
+
     async function addOrUpdateArticle(articleId, accessToken) {
         // e.preventDefault();
 
@@ -82,8 +101,14 @@ const ArticleComponent = () => {
             if (validateForm()) {
                 const article = {title, author, shortDescription, content, categoryID}
                 console.log(article);
+                const file = fileInputRef.current.files[0];
+                console.log(file);
 
                 if (articleId) {
+                    if (file) {
+                        uploadThumbnailArticle(articleId, file, accessToken);
+                    }
+
                     await updateArticleById(articleId, article, accessToken).then((response) => {
                         if (response.status == 200) {
                             alert(`Updated article have id is ${articleId} successfully!`);
@@ -107,6 +132,11 @@ const ArticleComponent = () => {
                 else {
                     await addArticle(article,accessToken).then((response) => {
                         if (response.status == 200) {
+                            if (file) {
+                                const articleId = response.data.articleID;
+                                uploadThumbnailArticle(articleId, file, accessToken);
+                            }
+
                             alert(`Added article successfully!`);
                             navigator(`/articles`);
                         }
@@ -235,7 +265,8 @@ const ArticleComponent = () => {
                                 <img src={`${getThumbnailArticle}${thumbnail}`} alt={title} loading="lazy" style={{ width: '200px', height: '200px' }} />
                                 : ``
                             }
-                            <input type="file" className="form-control" name="thumbnail" id="thumbnail" 
+                            <input type="file" className="form-control" name="picArticle" id="picArticle" 
+                            ref={fileInputRef} 
                             onChange={(e) => handleImageChange(e)} />
                         </div>
                         <br />
