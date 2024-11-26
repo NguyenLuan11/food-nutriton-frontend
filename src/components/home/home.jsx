@@ -41,7 +41,7 @@ const HomePage = () => {
     // Tạo labels, dataPoints và colors
     const labels = Object.keys(countItems);
     const dataPoints = Object.values(countItems);
-    const colors = ["#28a745", "#ffc107", "#dc3545", "#17a2b8", "#6c757d"];
+    const colors = ["#6c757d", "#17a2b8", "#28a745", "#ffc107", "#dc3545"];
 
     return (
         <>
