@@ -22,7 +22,11 @@ export const refreshToken = (refreshToken) => axios.post(`${REST_API_BASE_URL}/r
 
 export const addAdmin = (adminData) => axios.post(`${REST_API_BASE_URL}/admin`, adminData, {headers: header});
 
+export const checkAdminPassById = (adminId, passData) => axios.post(`${REST_API_BASE_URL}/admin/checkpass/${adminId}`, passData, {headers: header});
+
 export const updateAdminById = (adminId, adminData) => axios.put(`${REST_API_BASE_URL}/admin/${adminId}`, adminData, {headers: header});
+
+export const updateAdminPassById = (adminId, passData) => axios.put(`${REST_API_BASE_URL}/admin/updatepass/${adminId}`, passData, {headers: header});
 
 export const updateAvtAdminById = (adminId, file, accessToken) => { 
     const formData = new FormData();
