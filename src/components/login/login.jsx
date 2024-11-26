@@ -34,7 +34,7 @@ const LoginAdmin = () => {
                 if (response.status == 200) {
                     const admin = AdminModel.fromApiResponse(response.data);
                     // console.log(admin);
-                    alert("Đăng nhập hệ thống quản trị thành công!");
+                    alert("Login into admin system successfully!");
                     
                     localStorage.setItem("accessToken", admin.accessToken);
                     localStorage.setItem("adminID", admin.adminID);

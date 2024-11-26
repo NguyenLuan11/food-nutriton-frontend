@@ -4,8 +4,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderPage from "../home/header_page";
 import FooterPage from "../home/footer_page";
-import { getAdminById, getAvtAdmin, updateAdminById, updateAvtAdminById } from "../../services/adminService";
+import { checkAdminPassById, getAdminById, getAvtAdmin, updateAdminById, updateAdminPassById, updateAvtAdminById } from "../../services/adminService";
 import FormatDate from "../../utils/FormatDate";
+import encryptPass from "../../utils/CryptoPass";
+import { APP_NAME } from "../../services/constantService";
 
 const ProfileAdmin = () => {    
     const [adminName, setAdminName] = useState('');
@@ -16,6 +18,9 @@ const ProfileAdmin = () => {
     const [createdDate, setCreatedDate] = useState('');
     const [modifiedDate, setModifiedDate] = useState('');
     const [imageAvt, setImageAvt] = useState('');
+    const [currentPass, setCurrentPass] = useState('');
+    const [newPass, setNewPass] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
 
     // Initialize state variables that will hold validation errors
     const [errors, setErrors] = useState({
@@ -30,6 +35,13 @@ const ProfileAdmin = () => {
     const avatar = localStorage.getItem("avatar");
 
     const fileInputRef = useRef(null); // Create ref for input file
+    const [isVisibleBtnChangePass, setIsVisibleBtnChangePass] = useState(false);
+    const [isVisibleCurrentPassForm, setIsVisibleCurrentPassForm] = useState(true);
+    const [isVisibleNewPassForm, setIsVisibleNewPassForm] = useState(false);
+
+    const toggleVisibility = () => {
+        setIsVisibleBtnChangePass(!isVisibleBtnChangePass);
+      };
 
     useEffect(() => {
         if (adminID) {
@@ -150,6 +162,66 @@ const ProfileAdmin = () => {
         });
     }
 
+    async function checkPassAdmin() {
+        const passData = {password: encryptPass(currentPass, APP_NAME)};
+
+        await checkAdminPassById(adminID, passData).then(response => {
+            if (response.status == 200) {
+                setIsVisibleCurrentPassForm(!isVisibleCurrentPassForm);
+                setIsVisibleNewPassForm(!isVisibleNewPassForm);
+            } else {
+                alert("Wrong password!");
+            }
+        }).catch(error => {
+            if (error.response) {
+                var message = error.response.data.message;
+                alert(message);
+            } else {
+                console.error(error);
+            }
+        });
+    }
+
+    function btnUpdatePassAdminHandle() {
+        const confirmed = window.confirm("Are you sure change your password?");
+        
+        if (confirmed) {
+            updatePassAdmin();
+        }
+    }
+
+    async function updatePassAdmin() {
+        if (newPass == confirmPass) {
+            const passData = {password: encryptPass(newPass, APP_NAME)};
+
+            await updateAdminPassById(adminID, passData).then(response => {
+                if (response.status == 200) {
+                    setIsVisibleBtnChangePass(!isVisibleBtnChangePass);
+                    setIsVisibleCurrentPassForm(!isVisibleCurrentPassForm);
+                    setIsVisibleNewPassForm(!isVisibleNewPassForm);
+
+                    alert("Change password successfully!");
+
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("adminID");
+                    localStorage.removeItem("adminName");
+                    localStorage.removeItem("avatar");
+
+                    navigator("/");
+                }
+            }).catch(error => {
+                if (error.response) {
+                    var message = error.response.data.message;
+                    alert(message);
+                } else {
+                    console.error(error);
+                }
+            });
+        } else {
+            alert("New password and confirm password must matching!");
+        }
+    }
+
     return (
         <>
         <HeaderPage />
@@ -184,7 +256,8 @@ const ProfileAdmin = () => {
                                     <p className="text-muted mb-2">{address}</p>
                                     <p className="text-muted mb-2">Created Date: {createdDate}</p>
                                     <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" onClick={updateProfileAdmin} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary ms-1">Update Infomation</button>
+                                        <button type="button" onClick={updateProfileAdmin} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-success ms-1">Update Infomation</button>
+                                        <button type="button" onClick={toggleVisibility} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-warning ms-1">Change Password</button>
                                     </div>
                                 </div>
                             </div>
@@ -295,42 +368,42 @@ const ProfileAdmin = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="row">
+
+                            <div className="row" style={{ display: isVisibleBtnChangePass ? "block" : "none" }}>
                                 <div className="col-md-6">
                                     <div className="card mb-4 mb-md-0">
                                         <div className="card-body">
-                                            <p className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status
-                                            </p>
-                                            <p className="mb-1" style={{ fontSize: ".77rem" }}>Web Design</p>
-                                            <div className="progress rounded" style={{ height: "5px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: "80%" }} aria-valuenow="80"
-                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                            <p className="mb-4 fw-bold">CHANGE PASSWORD</p>
+
+                                            <div className="mb-3" style={{display: isVisibleCurrentPassForm ? "block" : "none"}}>
+                                                <div className="mb-2" id="currentpass">
+                                                    <label htmlFor="currentpass" className="form-label">Enter your current password</label>
+                                                    <input type="password" className="form-control" onChange={(e) => setCurrentPass(e.target.value)} 
+                                                    id="currentpass" placeholder="Your password!" />
+                                                </div>
+                                                <button type="button" onClick={checkPassAdmin} className="btn btn-outline-primary w-100">Submit</button>
                                             </div>
-                                            <p className="mt-4 mb-1" style={{ fontSize: ".77rem" }}>Website Markup</p>
-                                            <div className="progress rounded" style={{ height: "5px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: "72%" }} aria-valuenow="72"
-                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                            
+                                            <div className="mb-3" style={{display: isVisibleNewPassForm ? "block" : "none"}}>
+                                                <div className="mb-2">
+                                                    <label htmlFor="newpass" className="form-label">Enter new password</label>
+                                                    <input type="password" className="form-control" onChange={(e) => setNewPass(e.target.value)} 
+                                                    id="newpass" placeholder="New password!" />
+                                                </div>
+                                                <div className="mb-2">
+                                                    <label htmlFor="confirmpass" className="form-label">Confirm password</label>
+                                                    <input type="password" className="form-control" onChange={(e) => setConfirmPass(e.target.value)} 
+                                                    id="confirmpass" placeholder="Confirm password!" />
+                                                </div>
+                                                <button type="button" onClick={btnUpdatePassAdminHandle} className="btn btn-outline-danger w-100">Update Password</button>
                                             </div>
-                                            <p className="mt-4 mb-1" style={{ fontSize: ".77rem" }}>One Page</p>
-                                            <div className="progress rounded" style={{ height: "5px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: "89%" }} aria-valuenow="89"
-                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p className="mt-4 mb-1" style={{ fontSize: ".77rem" }}>Mobile Template</p>
-                                            <div className="progress rounded" style={{ height: "5px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: "55%" }} aria-valuenow="55"
-                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p className="mt-4 mb-1" style={{ fontSize: ".77rem" }}>Backend API</p>
-                                            <div className="progress rounded mb-2" style={{ height: "5px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: "66%" }} aria-valuenow="66"
-                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                                 
-                            </div> */}
+                            </div>
+
                         </div>
                     </div>
                 </div>

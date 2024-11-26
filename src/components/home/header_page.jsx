@@ -18,10 +18,10 @@ const HeaderPage = () => {
     }
 
     function handleLogoutButtonClick() {
-        const confirmed = window.confirm("Bạn có chắc chắn muốn đăng xuất không?");
+        const confirmed = window.confirm("Are you sure want to logout?");
         
         if (confirmed) {
-            alert(`Chào tạm biệt ${adminName}, hẹn gặp lại!`);
+            alert(`Goodbye ${adminName}, see you later!`);
             logout();
         }
     }
