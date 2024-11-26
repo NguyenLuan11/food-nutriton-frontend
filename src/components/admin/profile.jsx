@@ -126,6 +126,14 @@ const ProfileAdmin = () => {
         fileInputRef.current.click();
     };
 
+    function btnUpdateProfileAdminHandle() {
+        const confirmed = window.confirm("Are you sure update your information?");
+        
+        if (confirmed) {
+            updateProfileAdmin();
+        }
+    }
+
     async function updateProfileAdmin() {
         // console.log(`adminID: ${adminID}`);
         const adminData = {adminName, fullName, email, phone, address}
@@ -147,39 +155,45 @@ const ProfileAdmin = () => {
             });
         }
 
-        await updateAdminById(adminID, adminData).then(response => {
-            if (response.status == 200) {
-                alert("Updated admin's profile successfully!");
-                localStorage.setItem("adminName", response.data.adminName);
-            }
-        }).catch(error => {
-            if (error.response) {
-                var message = error.response.data.message;
-                alert(message);
-            } else {
-                console.error(error);
-            }
-        });
+        if (validateForm()) {
+            await updateAdminById(adminID, adminData).then(response => {
+                if (response.status == 200) {
+                    alert("Updated admin's profile successfully!");
+                    localStorage.setItem("adminName", response.data.adminName);
+                }
+            }).catch(error => {
+                if (error.response) {
+                    var message = error.response.data.message;
+                    alert(message);
+                } else {
+                    console.error(error);
+                }
+            });
+        }
     }
 
     async function checkPassAdmin() {
-        const passData = {password: encryptPass(currentPass, APP_NAME)};
+        if (currentPass && currentPass != "") {
+            const passData = {password: encryptPass(currentPass, APP_NAME)};
 
-        await checkAdminPassById(adminID, passData).then(response => {
-            if (response.status == 200) {
-                setIsVisibleCurrentPassForm(!isVisibleCurrentPassForm);
-                setIsVisibleNewPassForm(!isVisibleNewPassForm);
-            } else {
-                alert("Wrong password!");
-            }
-        }).catch(error => {
-            if (error.response) {
-                var message = error.response.data.message;
-                alert(message);
-            } else {
-                console.error(error);
-            }
-        });
+            await checkAdminPassById(adminID, passData).then(response => {
+                if (response.status == 200) {
+                    setIsVisibleCurrentPassForm(!isVisibleCurrentPassForm);
+                    setIsVisibleNewPassForm(!isVisibleNewPassForm);
+                } else {
+                    alert("Wrong password!");
+                }
+            }).catch(error => {
+                if (error.response) {
+                    var message = error.response.data.message;
+                    alert(message);
+                } else {
+                    console.error(error);
+                }
+            });
+        } else {
+            alert("Current password is requied!");
+        }
     }
 
     function btnUpdatePassAdminHandle() {
@@ -256,7 +270,7 @@ const ProfileAdmin = () => {
                                     <p className="text-muted mb-2">{address}</p>
                                     <p className="text-muted mb-2">Created Date: {createdDate}</p>
                                     <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" onClick={updateProfileAdmin} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-success ms-1">Update Infomation</button>
+                                        <button type="button" onClick={btnUpdateProfileAdminHandle} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-success ms-1">Update Infomation</button>
                                         <button type="button" onClick={toggleVisibility} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-warning ms-1">Change Password</button>
                                     </div>
                                 </div>
