@@ -39,7 +39,7 @@ const ProfileAdmin = () => {
     const [isVisibleCurrentPassForm, setIsVisibleCurrentPassForm] = useState(true);
     const [isVisibleNewPassForm, setIsVisibleNewPassForm] = useState(false);
 
-    const toggleVisibility = () => {
+    const toggleVisibilityBtnChangePass = () => {
         setIsVisibleBtnChangePass(!isVisibleBtnChangePass);
       };
 
@@ -271,36 +271,10 @@ const ProfileAdmin = () => {
                                     <p className="text-muted mb-2">Created Date: {createdDate}</p>
                                     <div className="d-flex justify-content-center mb-2">
                                         <button type="button" onClick={btnUpdateProfileAdminHandle} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-success ms-1">Update Infomation</button>
-                                        <button type="button" onClick={toggleVisibility} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-warning ms-1">Change Password</button>
+                                        <button type="button" onClick={toggleVisibilityBtnChangePass} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-warning ms-1">Change Password</button>
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="card mb-4 mb-lg-0">
-                                <div className="card-body p-0">
-                                    <ul className="list-group list-group-flush rounded-3">
-                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <i className="fas fa-address-card"></i>
-                                            <p className="mb-0">Users</p>
-                                        </li>
-                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <i className="fas fa-burger"></i>
-                                            <p className="mb-0">Foods</p>
-                                        </li>
-                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <i className="fas fa-atom"></i>
-                                            <p className="mb-0">Nutrients</p>
-                                        </li>
-                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <i className="far fa-file-lines"></i>
-                                            <p className="mb-0">Categories</p>
-                                        </li>
-                                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <i className="far fa-newspaper"></i>
-                                            <p className="mb-0">Articles</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div> */}
                         </div>
                         <div className="col-lg-8">
                             <div className="card mb-4">
