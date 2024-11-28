@@ -155,7 +155,7 @@ const NutrientComponent = () => {
             valid = false;
         }
 
-        if (needed.trim()) {
+        if (needed) {
             errorCopy.needed = '';
         } else {
             errorCopy.needed = 'Needed is requied!';

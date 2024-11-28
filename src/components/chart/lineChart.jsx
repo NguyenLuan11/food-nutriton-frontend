@@ -2,10 +2,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend, Colors } from 'chart.js';
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend, Filler } from 'chart.js';
 
 // Đăng ký các thành phần bắt buộc
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler, Tooltip, Legend);
 
 const LineChartComponent = ({ labels, dataPoints }) => {
   const data = {
@@ -30,12 +30,18 @@ const LineChartComponent = ({ labels, dataPoints }) => {
           display: true,
           text: 'Ngày kiểm tra BMI',
         },
+        grid: {
+          display: false, // Ẩn lưới trục x
+        },
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
           text: 'Chỉ số BMI',
+        },
+        grid: {
+          display: false, // Ẩn lưới trục x
         },
       },
     },
