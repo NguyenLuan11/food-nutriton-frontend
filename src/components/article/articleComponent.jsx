@@ -294,7 +294,7 @@ const ArticleComponent = () => {
                         <br />
                         <div>
                             <label htmlFor="categoryID"><b><i>Thể loại</i></b></label>
-                            <select className="form-select" defaultValue={categoryID}
+                            <select className="form-select" value={categoryID}
                                 onChange={(e) => setCategoryID(Number.parseInt(e.target.value))} name="categoryID" id="categoryID">
                                 {
                                     categories.map(category => 

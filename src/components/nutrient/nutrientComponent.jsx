@@ -277,7 +277,7 @@ const NutrientComponent = () => {
                         <br />
                         <div>
                             <label htmlFor="natureID"><b><i>Chất dinh dưỡng tự nhiên</i></b></label>
-                            <select className="form-select" defaultValue={natureID}
+                            <select className="form-select" value={natureID}
                                 onChange={(e) => setNatureID(Number.parseInt(e.target.value))} name="natureID" id="natureID">
                                 {
                                     natures.map(nature => 
