@@ -60,30 +60,30 @@ const DetailsFoodComponent = () => {
                         <div className="tableOfContent border p-4 rounded-4 bg-success-subtle">
                             <ol>
                                 <li>
-                                    <a href={`#${food.nutritionValue}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#nutritionValue" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Thành phần dinh dưỡng</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${food.preservation}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#preservation" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Bảo quản</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${food.note}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#note" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Thông tin thêm ( ghi chú )</i>
                                     </a>
                                 </li>
                             </ol>
                         </div>
                         <div className="content" style={{textIndent: '40px'}}>
-                            <h5 id={food.nutritionValue}>1. Thành phần dinh dưỡng</h5>
+                            <h5 id="nutritionValue">1. Thành phần dinh dưỡng</h5>
                             <p>{food.nutritionValue}</p>
 
-                            <h5 id={food.preservation}>2. Bảo quản</h5>
+                            <h5 id="preservation">2. Bảo quản</h5>
                             <p>{food.preservation}</p>
 
-                            <h5 id={food.note}>3. Thông tin thêm</h5>
+                            <h5 id="note">3. Thông tin thêm</h5>
                             <p>{food.note}</p>
                         </div>
                     </div>

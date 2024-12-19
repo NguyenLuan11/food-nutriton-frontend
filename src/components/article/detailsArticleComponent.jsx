@@ -86,22 +86,22 @@ const DetailsArticleComponent = () => {
                         <div className="tableOfContent border p-4 rounded-4 bg-success-subtle">
                             <ol>
                                 <li>
-                                    <a href={`#${article.shortDescription}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#shortDescription" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Mô tả ngắn</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${article.content}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#content" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Nội dung</i>
                                     </a>
                                 </li>
                             </ol>
                         </div>
                         <div className="content" style={{ textIndent: '40px' }}>
-                            <h5 id={article.shortDescription}>1. Mô tả ngắn</h5>
+                            <h5 id="shortDescription">1. Mô tả ngắn</h5>
                             <p>{article.shortDescription}</p>
 
-                            <h5 id={article.content}>2. Nội dung</h5>
+                            <h5 id="content">2. Nội dung</h5>
                             <p>{article.content}</p>
 
                             <p className="d-flex justify-content-end" style={{textIndent: '40px'}}><i>{article.author}</i></p>

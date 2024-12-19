@@ -83,62 +83,62 @@ const DetailsNutrientComponent = () => {
                         <div className="tableOfContent border p-4 rounded-4 bg-success-subtle">
                             <ol>
                                 <li>
-                                    <a href={`#${nutrient.description}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#description" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Mô tả</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${nutrient.function}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#function" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Chức năng</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${nutrient.needed}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#needed" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Mức tiêu thụ cần thiết</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${nutrient.excessSigns}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#excessSigns" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Dấu hiệu dư thừa {nutrient.nutrientName}</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${nutrient.deficiencySigns}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#deficiencySigns" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Dấu hiệu thiếu hụt {nutrient.nutrientName}</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${nutrient.shortagePrevention}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#shortagePrevention" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Ngăn ngừa thiếu hụt {nutrient.nutrientName}</i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href={`#${nutrient.subjectInterest}`} className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <a href="#subjectInterest" className="link-dark link-dark-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         <i>Các đối tượng cần chú tâm đến lượng {nutrient.nutrientName}</i>
                                     </a>
                                 </li>
                             </ol>
                         </div>
                         <div className="content" style={{ textIndent: '40px' }}>
-                            <h5 id={nutrient.description}>1. Mô tả</h5>
+                            <h5 id="description">1. Mô tả</h5>
                             <p>{nutrient.description}</p>
 
-                            <h5 id={nutrient.function}>2. Chức năng</h5>
+                            <h5 id="function">2. Chức năng</h5>
                             <p>{nutrient.function}</p>
 
-                            <h5 id={nutrient.needed}>3. Mức tiêu thụ cần thiết</h5>
+                            <h5 id="needed">3. Mức tiêu thụ cần thiết</h5>
                             <p>{nutrient.needed} gram/ngày</p>
 
-                            <h5 id={nutrient.excessSigns}>4. Dấu hiệu dư thừa {nutrient.nutrientName}</h5>
+                            <h5 id="excessSigns">4. Dấu hiệu dư thừa {nutrient.nutrientName}</h5>
                             <p>{nutrient.excessSigns}</p>
 
-                            <h5 id={nutrient.deficiencySigns}>5. Dấu hiệu thiếu hụt {nutrient.nutrientName}</h5>
+                            <h5 id="deficiencySigns">5. Dấu hiệu thiếu hụt {nutrient.nutrientName}</h5>
                             <p>{nutrient.deficiencySigns}</p>
 
-                            <h5 id={nutrient.shortagePrevention}>6. Ngăn ngừa thiếu hụt {nutrient.nutrientName}</h5>
+                            <h5 id="shortagePrevention">6. Ngăn ngừa thiếu hụt {nutrient.nutrientName}</h5>
                             <p>{nutrient.shortagePrevention}</p>
 
-                            <h5 id={nutrient.subjectInterest}>7. Các đối tượng cần chú tâm đến lượng {nutrient.nutrientName}</h5>
+                            <h5 id="subjectInterest">7. Các đối tượng cần chú tâm đến lượng {nutrient.nutrientName}</h5>
                             <p>{nutrient.subjectInterest}</p>
                         </div>
                     </div>
