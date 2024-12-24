@@ -17,6 +17,7 @@ const ArticleComponent = () => {
     const [thumbnail, setThumbnail] = useState('');
     const [categoryID, setCategoryID] = useState(0);
     const [author, setAuthor] = useState('');
+    const [origin, setOrigin] = useState('');
     const [content, setContent] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     const [title, setTitle] = useState('');
@@ -63,6 +64,7 @@ const ArticleComponent = () => {
                 setTitle(response.data.title);
                 setThumbnail(response.data.thumbnail);
                 setAuthor(response.data.author);
+                setOrigin(response.data.origin);
                 setShortDescription(response.data.shortDescription);
                 setContent(response.data.content);
                 setCategoryID(response.data.categoryID);
@@ -99,7 +101,7 @@ const ArticleComponent = () => {
 
         if (accessToken != null) {
             if (validateForm()) {
-                const article = {title, author, shortDescription, content, categoryID}
+                const article = {title, author, origin, shortDescription, content, categoryID}
                 console.log(article);
                 const file = fileInputRef.current.files[0];
                 console.log(file);
@@ -248,11 +250,18 @@ const ArticleComponent = () => {
                             <label htmlFor="author"><b><i>Tác giả</i></b></label>
                             <input type="text" 
                             onChange={(e) => setAuthor(e.target.value)}
-                            className={`form-control ${ errors.author ? 'is-invalid' : '' }`} 
+                            className="form-control" 
                             name="author" id="author" 
                             value={author} />
-                            {/* Display validation errors */}
-                            { errors.author && <div className='invalid-feedback'>{ errors.author }</div> }
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label htmlFor="origin"><b><i>Nguồn bài viết</i></b></label>
+                            <input type="text" 
+                            onChange={(e) => setOrigin(e.target.value)}
+                            className="form-control" 
+                            name="origin" id="origin" 
+                            value={origin} />
                         </div>
                         <br />
                         <div className="form-group">
@@ -274,11 +283,9 @@ const ArticleComponent = () => {
                             <label htmlFor="shortDescription"><b><i>Mô tả ngắn</i></b></label>
                             <textarea type="text"
                             onChange={(e) => setShortDescription(e.target.value)}
-                            className={`form-control ${ errors.shortDescription ? 'is-invalid' : '' }`} 
+                            className="form-control" 
                             name="shortDescription" id="shortDescription" 
                             value={shortDescription} />
-                            {/* Display validation errors */}
-                            { errors.shortDescription && <div className='invalid-feedback'>{ errors.shortDescription }</div> }
                         </div>
                         <br />
                         <div className="form-group">

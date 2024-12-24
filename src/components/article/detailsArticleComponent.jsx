@@ -105,6 +105,7 @@ const DetailsArticleComponent = () => {
                             <p>{article.content}</p>
 
                             <p className="d-flex justify-content-end" style={{textIndent: '40px'}}><i>{article.author}</i></p>
+                            <p className="d-flex justify-content-end" style={{textIndent: '40px'}}><i>{article.origin}</i></p>
                         </div>
                     </div>
                     <p className="d-flex justify-content-end"><i>
