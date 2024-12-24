@@ -223,7 +223,7 @@ const NutrientComponent = () => {
                         <br />
                         <div className="form-group">
                             <label htmlFor="needed"><b><i>Mức tiêu thụ cần thiết</i></b></label>
-                            <input type="number" step={0.1}
+                            <input type="text"
                             onChange={(e) => setNeeded(e.target.value)}
                             className={`form-control ${ errors.needed ? 'is-invalid' : '' }`} 
                             name="needed" id="needed" 

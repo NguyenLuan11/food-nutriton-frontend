@@ -127,7 +127,7 @@ const DetailsNutrientComponent = () => {
                             <p>{nutrient.function}</p>
 
                             <h5 id="needed">3. Mức tiêu thụ cần thiết</h5>
-                            <p>{nutrient.needed} gram/ngày</p>
+                            <p>{nutrient.needed}</p>
 
                             <h5 id="excessSigns">4. Dấu hiệu dư thừa {nutrient.nutrientName}</h5>
                             <p>{nutrient.excessSigns}</p>
