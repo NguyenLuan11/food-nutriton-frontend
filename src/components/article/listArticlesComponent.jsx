@@ -134,7 +134,9 @@ const ListArticlesComponent = () => {
                             <div>
                                 <p style={{textIndent: '40px'}}>{article.shortDescription}</p>
                                 <p className="d-flex justify-content-end" style={{textIndent: '40px'}}><i>{article.author}</i></p>
-                                <p className="d-flex justify-content-end" style={{textIndent: '40px'}}><i>{article.origin}</i></p>
+                                <p className="d-flex justify-content-end" style={{textIndent: '40px'}}>
+                                    <i><a href={article.linkOrigin != null ? `${article.linkOrigin}` : ''}>{article.origin}</a></i>
+                                </p>
                             </div>
                         </div>
                         <div>

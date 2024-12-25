@@ -18,6 +18,7 @@ const ArticleComponent = () => {
     const [categoryID, setCategoryID] = useState(0);
     const [author, setAuthor] = useState('');
     const [origin, setOrigin] = useState('');
+    const [linkOrigin, setLinkOrigin] = useState('');
     const [content, setContent] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     const [title, setTitle] = useState('');
@@ -65,6 +66,7 @@ const ArticleComponent = () => {
                 setThumbnail(response.data.thumbnail);
                 setAuthor(response.data.author);
                 setOrigin(response.data.origin);
+                setLinkOrigin(response.data.linkOrigin);
                 setShortDescription(response.data.shortDescription);
                 setContent(response.data.content);
                 setCategoryID(response.data.categoryID);
@@ -101,7 +103,7 @@ const ArticleComponent = () => {
 
         if (accessToken != null) {
             if (validateForm()) {
-                const article = {title, author, origin, shortDescription, content, categoryID}
+                const article = {title, author, origin, linkOrigin, shortDescription, content, categoryID}
                 console.log(article);
                 const file = fileInputRef.current.files[0];
                 console.log(file);
@@ -262,6 +264,15 @@ const ArticleComponent = () => {
                             className="form-control" 
                             name="origin" id="origin" 
                             value={origin} />
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label htmlFor="linkOrigin"><b><i>Địa chỉ nguồn bài viết</i></b></label>
+                            <input type="text" 
+                            onChange={(e) => setLinkOrigin(e.target.value)}
+                            className="form-control" 
+                            name="linkOrigin" id="linkOrigin" 
+                            value={linkOrigin} />
                         </div>
                         <br />
                         <div className="form-group">
