@@ -14,6 +14,8 @@ import DetailsNutrientComponent from './components/nutrient/detailsNutrientCompo
 import NutrientComponent from './components/nutrient/nutrientComponent'
 import CategoryComponent from './components/category/categoryComponent'
 import ProfileAdmin from './components/admin/profile'
+import ListExerciseComponent from './components/exercise/listExerciseComponent'
+import ExerciseComponent from './components/exercise/exerciseComponent'
 
 function App() {
 
@@ -50,6 +52,12 @@ function App() {
             <Route path='/category/:categoryId' element = { <CategoryComponent /> } />
 
             <Route path='/category' element = { <CategoryComponent /> } />
+
+            <Route path='/exercises' element = { <ListExerciseComponent /> } />
+
+            <Route path='/exercise/:exerciseId' element = { <ExerciseComponent /> } />
+
+            <Route path='/exercise' element = { <ExerciseComponent /> } />
 
             <Route path='/articles' element = { <ListArticlesComponent /> } />
 

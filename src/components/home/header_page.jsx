@@ -53,6 +53,9 @@ const HeaderPage = () => {
                         <li className="nav-item">
                             <a className="nav-link" href="/articles">Articles</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/exercises">Exercises</a>
+                        </li>
                     </ul>
 
                     <div className="d-flex justify-content-end container-fluid" style={{ marginRight: '3%' }}>
