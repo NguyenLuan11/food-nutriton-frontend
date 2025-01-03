@@ -107,7 +107,7 @@ const ListExerciseComponent = () => {
         <div className="container">
             <h2 className='fw-bold text-center text-success text-uppercase m-2'>Danh sách bài tập</h2>
 
-            <button className='btn btn-outline-dark ml-2' onClick={() => { addExercise() }}>Add New Category</button>
+            <button className='btn btn-outline-dark ml-2' onClick={() => { addExercise() }}>Add New Exercise</button>
 
                 <form className="d-flex justify-content-end" role="search">
                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"
